@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Data.InventoryItems;
 using Data.InventoryItems.Ids;
+using Data.InventoryItems.ItemDatas;
+using Data.InventoryItems.ItemStaticDatas;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,6 +42,10 @@ namespace Data
         private MedicineInventoryItemStaticData _medicineInventoryItemStaticData;
         private int _itemIndex;
         private int _count;
+        private AmmoId _ammoId;
+        private BodyArmorId _bodyArmorId;
+        private HeadArmorId _headArmorId;
+        private MedicineId _medicineId;
 
         public List<InventoryItemData> InventoryItemsPerCells => _inventoryItemsPerCells;
 
@@ -124,14 +129,13 @@ namespace Data
                 if (_allCellsStatus[i])
                     CreateRandomInventoryItemData();
                 else
-                    _inventoryItemsPerCells.Add(new InventoryItemData(false, null, 0, 0f));
+                    _inventoryItemsPerCells.Add(new InventoryItemData(0, 0, 0f, InventoryItemId.Ammo));
             }
         }
 
         private void CreateRandomInventoryItemData()
         {
             _itemIndex = Random.Range(0, 4);
-            _count = Random.Range(1, 5);
 
             switch (_itemIndex)
             {
@@ -141,9 +145,12 @@ namespace Data
                         _currentMedicineItemsCount <= _currentAmmoItemsCount)
                     {
                         _itemIndex = Random.Range(0, _ammoIds.Count);
-                        _ammoInventoryItemStaticData = _ammoItemStaticDatas[_ammoIds[_itemIndex]];
-                        _inventoryItemsPerCells.Add(new InventoryItemData(true, _ammoInventoryItemStaticData.Icon,
-                            _count, _ammoInventoryItemStaticData.Weight));
+                        _ammoId = _ammoIds[_itemIndex];
+                        _ammoInventoryItemStaticData = _ammoItemStaticDatas[_ammoId];
+                        _count = Random.Range(1, _ammoInventoryItemStaticData.MaxStackCount + 1);
+                        _inventoryItemsPerCells.Add(new AmmoInventoryItemData(_ammoInventoryItemStaticData.MainIcon,
+                            _count, _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
+                            InventoryItemId.Ammo, _ammoId, _ammoInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
@@ -154,9 +161,14 @@ namespace Data
                         _currentMedicineItemsCount <= _currentBodyArmorItemsCount)
                     {
                         _itemIndex = Random.Range(0, _bodyArmorIds.Count);
-                        _bodyArmorInventoryItemStaticData = _bodyArmorStaticDatas[_bodyArmorIds[_itemIndex]];
-                        _inventoryItemsPerCells.Add(new InventoryItemData(true, _bodyArmorInventoryItemStaticData.Icon,
-                            _count, _bodyArmorInventoryItemStaticData.Weight));
+                        _bodyArmorId = _bodyArmorIds[_itemIndex];
+                        _bodyArmorInventoryItemStaticData = _bodyArmorStaticDatas[_bodyArmorId];
+                        _count = Random.Range(1, _bodyArmorInventoryItemStaticData.MaxStackCount + 1);
+                        _inventoryItemsPerCells.Add(new BodyArmorInventoryItemData(
+                            _bodyArmorInventoryItemStaticData.MainIcon, _count,
+                            _bodyArmorInventoryItemStaticData.MaxStackCount, _bodyArmorInventoryItemStaticData.Weight,
+                            InventoryItemId.BodyArmor, _bodyArmorId, _bodyArmorInventoryItemStaticData.DefenseValue,
+                            _bodyArmorInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
@@ -167,9 +179,14 @@ namespace Data
                         _currentMedicineItemsCount <= _currentHeadArmorItemsCount)
                     {
                         _itemIndex = Random.Range(0, _headArmorIds.Count);
-                        _headArmorInventoryItemStaticData = _headArmorStaticDatas[_headArmorIds[_itemIndex]];
-                        _inventoryItemsPerCells.Add(new InventoryItemData(true, _headArmorInventoryItemStaticData.Icon,
-                            _count, _headArmorInventoryItemStaticData.Weight));
+                        _headArmorId = _headArmorIds[_itemIndex];
+                        _headArmorInventoryItemStaticData = _headArmorStaticDatas[_headArmorId];
+                        _count = Random.Range(1, _headArmorInventoryItemStaticData.MaxStackCount + 1);
+                        _inventoryItemsPerCells.Add(new HeadArmorInventoryItemData(
+                            _headArmorInventoryItemStaticData.MainIcon, _count,
+                            _headArmorInventoryItemStaticData.MaxStackCount, _headArmorInventoryItemStaticData.Weight,
+                            InventoryItemId.HeadArmor, _headArmorId, _headArmorInventoryItemStaticData.DefenseValue,
+                            _headArmorInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
@@ -180,9 +197,15 @@ namespace Data
                         _currentBodyArmorItemsCount <= _currentMedicineItemsCount)
                     {
                         _itemIndex = Random.Range(0, _medicineIds.Count);
-                        _medicineInventoryItemStaticData = _medicineStaticDatas[_medicineIds[_itemIndex]];
-                        _inventoryItemsPerCells.Add(new InventoryItemData(true, _medicineInventoryItemStaticData.Icon,
-                            _count, _medicineInventoryItemStaticData.Weight));
+                        _medicineId = _medicineIds[_itemIndex];
+                        _medicineInventoryItemStaticData = _medicineStaticDatas[_medicineId];
+                        _count = 1;
+                        _inventoryItemsPerCells.Add(new MedicineInventoryItemData(
+                            _medicineInventoryItemStaticData.MainIcon, _count, 
+                            _medicineInventoryItemStaticData.MaxStackCount,
+                            _medicineInventoryItemStaticData.Weight, InventoryItemId.Medicine,
+                            _medicineId, _medicineInventoryItemStaticData.HealValue,
+                            _medicineInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
