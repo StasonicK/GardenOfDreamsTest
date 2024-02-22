@@ -2,9 +2,10 @@
 {
     public enum InventoryItemId
     {
-        Ammo = 0,
-        BodyArmor = 1,
-        HeadArmor = 2,
-        Medicine = 3,
+        Empty = 0,
+        Ammo = 1,
+        Headgear = 2,
+        Outerwear = 3,
+        Medicine = 4,
     }
 }

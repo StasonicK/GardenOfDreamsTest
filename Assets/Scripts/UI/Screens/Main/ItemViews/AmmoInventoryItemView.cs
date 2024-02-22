@@ -1,20 +1,18 @@
-﻿using Data.InventoryItems.Ids;
-using UI.Windows;
+﻿using UI.Windows;
 using UnityEngine;
 
 namespace UI.Screens.Main.ItemViews
 {
-    public class AmmoInventoryItemView : InventoryItemView
+    public class AmmoInventoryItemView : BaseInventoryItemView
     {
         private string _countValue;
 
         public string CountValue => _countValue;
 
         public void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
-            InventoryItemId inventoryItemId, Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
+            Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
         {
-            base.Construct(title, mainIcon, count, maxStackCount, weight, inventoryItemId, traitIcon,
-                inventoryItemWindow);
+            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItemWindow);
             _countValue = $"+{count}";
         }
 

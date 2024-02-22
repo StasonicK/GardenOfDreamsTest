@@ -1,10 +1,9 @@
-﻿using Data.InventoryItems.Ids;
-using UI.Windows;
+﻿using UI.Windows;
 using UnityEngine;
 
 namespace UI.Screens.Main.ItemViews
 {
-    public class BodyArmorInventoryItemView : InventoryItemView
+    public class OuterwearInventoryItemView : BaseInventoryItemView
     {
         // private float _defenseValue;
         private string _defenseValue;
@@ -12,11 +11,11 @@ namespace UI.Screens.Main.ItemViews
         // public float DefenseValue => _defenseValue;
         public string DefenseValue => _defenseValue;
 
-        public void Construct(string title, Sprite icon, int count, int maxStackCount, float weight,
-            InventoryItemId inventoryItemId, float defenseValue, Sprite traitIcon,
-            InventoryItemWindow inventoryItemWindow)
+        public void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
+            float defenseValue,
+            Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
         {
-            base.Construct(title, icon, count, maxStackCount, weight, inventoryItemId, traitIcon, inventoryItemWindow);
+            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItemWindow);
             // _defenseValue = defenseValue;
             _defenseValue = $"+{defenseValue}";
         }

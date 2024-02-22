@@ -8,7 +8,6 @@ namespace Data.InventoryItems.ItemDatas
     [Serializable]
     public class InventoryItemData
     {
-        public bool IsFull;
         public string Name;
         [CanBeNull] public Sprite MainIcon;
         public int Count;
@@ -17,11 +16,9 @@ namespace Data.InventoryItems.ItemDatas
         public InventoryItemId InventoryItemId;
         [CanBeNull] public Sprite TraitIcon;
 
-        public InventoryItemData(int count, int maxStackCount, float weight,
-            InventoryItemId inventoryItemId, bool isFull = false, [CanBeNull] Sprite mainIcon = null,
-            [CanBeNull] Sprite traitIcon = null)
+        public InventoryItemData(int count, int maxStackCount, float weight, InventoryItemId inventoryItemId,
+            [CanBeNull] Sprite mainIcon = null, [CanBeNull] Sprite traitIcon = null)
         {
-            IsFull = isFull;
             MainIcon = mainIcon;
             Count = count;
             MaxStackCount = maxStackCount;

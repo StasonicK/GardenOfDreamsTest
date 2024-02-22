@@ -1,12 +1,11 @@
-﻿using Data.InventoryItems.Ids;
-using TMPro;
+﻿using TMPro;
 using UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Screens.Main.ItemViews
 {
-    public class InventoryItemView : MonoBehaviour
+    public class BaseInventoryItemView : MonoBehaviour
     {
         [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _countText;
@@ -17,7 +16,6 @@ namespace UI.Screens.Main.ItemViews
         protected int Count { get; private set; }
         protected int MaxStackCount { get; private set; }
         protected float Weight { get; private set; }
-        protected InventoryItemId InventoryItemId { get; private set; }
         protected InventoryItemWindow InventoryItemWindow { get; private set; }
         protected Sprite TraitIcon { get; private set; }
 
@@ -31,14 +29,13 @@ namespace UI.Screens.Main.ItemViews
         }
 
         protected void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
-            InventoryItemId inventoryItemId, Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
+            Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
         {
             Title = title;
             MainIcon = mainIcon;
             Count = count;
             MaxStackCount = maxStackCount;
             Weight = weight;
-            InventoryItemId = inventoryItemId;
             InventoryItemWindow = inventoryItemWindow;
 
             _countText.text = count == 1 ? "" : $"{count}";

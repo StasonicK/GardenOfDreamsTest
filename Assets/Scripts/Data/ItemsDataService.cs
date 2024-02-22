@@ -12,39 +12,39 @@ namespace Data
     public class ItemsDataService
     {
         private const string AMMO_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Ammo";
-        private const string BODY_ARMOR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/BodyArmor";
-        private const string HEAD_ARMOR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/HeadArmor";
+        private const string OUTERWEAR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Outerwear";
+        private const string HEADGEAR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Headgear";
         private const string MEDICINE_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Medicine";
 
         private readonly int _notEmptyCellsCount;
         private readonly int _rows;
         private readonly int _columns;
         private List<AmmoId> _ammoIds = Enum.GetValues(typeof(AmmoId)).Cast<AmmoId>().ToList();
-        private List<BodyArmorId> _bodyArmorIds = Enum.GetValues(typeof(BodyArmorId)).Cast<BodyArmorId>().ToList();
-        private List<HeadArmorId> _headArmorIds = Enum.GetValues(typeof(HeadArmorId)).Cast<HeadArmorId>().ToList();
+        private List<OuterwearId> _outerwearIds = Enum.GetValues(typeof(OuterwearId)).Cast<OuterwearId>().ToList();
+        private List<HeadgearId> _headgearIds = Enum.GetValues(typeof(HeadgearId)).Cast<HeadgearId>().ToList();
         private List<MedicineId> _medicineIds = Enum.GetValues(typeof(MedicineId)).Cast<MedicineId>().ToList();
         private InventoryItemData _inventoryItemData;
         private Dictionary<AmmoId, AmmoInventoryItemStaticData> _ammoItemStaticDatas;
-        private Dictionary<BodyArmorId, BodyArmorInventoryItemStaticData> _bodyArmorStaticDatas;
-        private Dictionary<HeadArmorId, HeadArmorInventoryItemStaticData> _headArmorStaticDatas;
+        private Dictionary<OuterwearId, OuterwearInventoryItemStaticData> _outerwearStaticDatas;
+        private Dictionary<HeadgearId, HeadgearInventoryItemStaticData> _headgearStaticDatas;
         private Dictionary<MedicineId, MedicineInventoryItemStaticData> _medicineStaticDatas;
         private int _currentAmmoItemsCount = 0;
-        private int _currentBodyArmorItemsCount = 0;
-        private int _currentHeadArmorItemsCount = 0;
+        private int _currentOuterwearItemsCount = 0;
+        private int _currentHeadgearItemsCount = 0;
         private int _currentMedicineItemsCount = 0;
         private List<InventoryItemData> _inventoryItemsPerCells;
         private Dictionary<int, bool> _allCellsStatus;
         private int _allCellsCount;
         private int _currentNotEmptyCellsCount = 0;
         private AmmoInventoryItemStaticData _ammoInventoryItemStaticData;
-        private BodyArmorInventoryItemStaticData _bodyArmorInventoryItemStaticData;
-        private HeadArmorInventoryItemStaticData _headArmorInventoryItemStaticData;
+        private OuterwearInventoryItemStaticData _outerwearInventoryItemStaticData;
+        private HeadgearInventoryItemStaticData _headgearInventoryItemStaticData;
         private MedicineInventoryItemStaticData _medicineInventoryItemStaticData;
         private int _itemIndex;
         private int _count;
         private AmmoId _ammoId;
-        private BodyArmorId _bodyArmorId;
-        private HeadArmorId _headArmorId;
+        private OuterwearId _outerwearId;
+        private HeadgearId _headgearId;
         private MedicineId _medicineId;
 
         public List<InventoryItemData> InventoryItemsPerCells => _inventoryItemsPerCells;
@@ -60,12 +60,12 @@ namespace Data
                 .LoadAll<AmmoInventoryItemStaticData>(AMMO_INVENTORY_ITEMS_PATH)
                 .ToDictionary(x => x.Id, x => x);
 
-            _bodyArmorStaticDatas = Resources
-                .LoadAll<BodyArmorInventoryItemStaticData>(BODY_ARMOR_INVENTORY_ITEMS_PATH)
+            _outerwearStaticDatas = Resources
+                .LoadAll<OuterwearInventoryItemStaticData>(OUTERWEAR_INVENTORY_ITEMS_PATH)
                 .ToDictionary(x => x.Id, x => x);
 
-            _headArmorStaticDatas = Resources
-                .LoadAll<HeadArmorInventoryItemStaticData>(HEAD_ARMOR_INVENTORY_ITEMS_PATH)
+            _headgearStaticDatas = Resources
+                .LoadAll<HeadgearInventoryItemStaticData>(HEADGEAR_INVENTORY_ITEMS_PATH)
                 .ToDictionary(x => x.Id, x => x);
 
             _medicineStaticDatas = Resources
@@ -129,7 +129,7 @@ namespace Data
                 if (_allCellsStatus[i])
                     CreateRandomInventoryItemData();
                 else
-                    _inventoryItemsPerCells.Add(new InventoryItemData(0, 0, 0f, InventoryItemId.Ammo));
+                    _inventoryItemsPerCells.Add(new InventoryItemData(0, 0, 0f, InventoryItemId.Empty));
             }
         }
 
@@ -140,8 +140,8 @@ namespace Data
             switch (_itemIndex)
             {
                 case 0:
-                    if (_currentBodyArmorItemsCount <= _currentAmmoItemsCount ||
-                        _currentHeadArmorItemsCount <= _currentAmmoItemsCount ||
+                    if (_currentOuterwearItemsCount <= _currentAmmoItemsCount ||
+                        _currentHeadgearItemsCount <= _currentAmmoItemsCount ||
                         _currentMedicineItemsCount <= _currentAmmoItemsCount)
                     {
                         _itemIndex = Random.Range(0, _ammoIds.Count);
@@ -156,45 +156,45 @@ namespace Data
                     break;
 
                 case 1:
-                    if (_currentAmmoItemsCount <= _currentBodyArmorItemsCount ||
-                        _currentHeadArmorItemsCount <= _currentBodyArmorItemsCount ||
-                        _currentMedicineItemsCount <= _currentBodyArmorItemsCount)
+                    if (_currentAmmoItemsCount <= _currentOuterwearItemsCount ||
+                        _currentHeadgearItemsCount <= _currentOuterwearItemsCount ||
+                        _currentMedicineItemsCount <= _currentOuterwearItemsCount)
                     {
-                        _itemIndex = Random.Range(0, _bodyArmorIds.Count);
-                        _bodyArmorId = _bodyArmorIds[_itemIndex];
-                        _bodyArmorInventoryItemStaticData = _bodyArmorStaticDatas[_bodyArmorId];
-                        _count = Random.Range(1, _bodyArmorInventoryItemStaticData.MaxStackCount + 1);
-                        _inventoryItemsPerCells.Add(new BodyArmorInventoryItemData(
-                            _bodyArmorInventoryItemStaticData.MainIcon, _count,
-                            _bodyArmorInventoryItemStaticData.MaxStackCount, _bodyArmorInventoryItemStaticData.Weight,
-                            InventoryItemId.BodyArmor, _bodyArmorId, _bodyArmorInventoryItemStaticData.DefenseValue,
-                            _bodyArmorInventoryItemStaticData.TraitIcon));
+                        _itemIndex = Random.Range(0, _outerwearIds.Count);
+                        _outerwearId = _outerwearIds[_itemIndex];
+                        _outerwearInventoryItemStaticData = _outerwearStaticDatas[_outerwearId];
+                        _count = Random.Range(1, _outerwearInventoryItemStaticData.MaxStackCount + 1);
+                        _inventoryItemsPerCells.Add(new OuterwearInventoryItemData(
+                            _outerwearInventoryItemStaticData.MainIcon, _count,
+                            _outerwearInventoryItemStaticData.MaxStackCount, _outerwearInventoryItemStaticData.Weight,
+                            InventoryItemId.Outerwear, _outerwearId, _outerwearInventoryItemStaticData.DefenseValue,
+                            _outerwearInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
 
                 case 2:
-                    if (_currentAmmoItemsCount <= _currentHeadArmorItemsCount ||
-                        _currentBodyArmorItemsCount <= _currentHeadArmorItemsCount ||
-                        _currentMedicineItemsCount <= _currentHeadArmorItemsCount)
+                    if (_currentAmmoItemsCount <= _currentHeadgearItemsCount ||
+                        _currentOuterwearItemsCount <= _currentHeadgearItemsCount ||
+                        _currentMedicineItemsCount <= _currentHeadgearItemsCount)
                     {
-                        _itemIndex = Random.Range(0, _headArmorIds.Count);
-                        _headArmorId = _headArmorIds[_itemIndex];
-                        _headArmorInventoryItemStaticData = _headArmorStaticDatas[_headArmorId];
-                        _count = Random.Range(1, _headArmorInventoryItemStaticData.MaxStackCount + 1);
-                        _inventoryItemsPerCells.Add(new HeadArmorInventoryItemData(
-                            _headArmorInventoryItemStaticData.MainIcon, _count,
-                            _headArmorInventoryItemStaticData.MaxStackCount, _headArmorInventoryItemStaticData.Weight,
-                            InventoryItemId.HeadArmor, _headArmorId, _headArmorInventoryItemStaticData.DefenseValue,
-                            _headArmorInventoryItemStaticData.TraitIcon));
+                        _itemIndex = Random.Range(0, _headgearIds.Count);
+                        _headgearId = _headgearIds[_itemIndex];
+                        _headgearInventoryItemStaticData = _headgearStaticDatas[_headgearId];
+                        _count = Random.Range(1, _headgearInventoryItemStaticData.MaxStackCount + 1);
+                        _inventoryItemsPerCells.Add(new HeadgearInventoryItemData(
+                            _headgearInventoryItemStaticData.MainIcon, _count,
+                            _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
+                            InventoryItemId.Headgear, _headgearId, _headgearInventoryItemStaticData.DefenseValue,
+                            _headgearInventoryItemStaticData.TraitIcon));
                     }
 
                     break;
 
                 case 3:
                     if (_currentAmmoItemsCount <= _currentMedicineItemsCount ||
-                        _currentHeadArmorItemsCount <= _currentMedicineItemsCount ||
-                        _currentBodyArmorItemsCount <= _currentMedicineItemsCount)
+                        _currentHeadgearItemsCount <= _currentMedicineItemsCount ||
+                        _currentOuterwearItemsCount <= _currentMedicineItemsCount)
                     {
                         _itemIndex = Random.Range(0, _medicineIds.Count);
                         _medicineId = _medicineIds[_itemIndex];

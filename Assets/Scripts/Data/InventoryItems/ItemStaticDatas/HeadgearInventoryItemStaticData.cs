@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Data.InventoryItems.ItemStaticDatas
 {
     [CreateAssetMenu(fileName = "HeadArmor", menuName = "StaticData/HeadArmor")]
-    public class HeadArmorInventoryItemStaticData : ScriptableObject
+    public class HeadgearInventoryItemStaticData : ScriptableObject
     {
-        public HeadArmorId Id;
+        public HeadgearId Id;
         public string Name;
         public Sprite MainIcon;
         public float Weight;

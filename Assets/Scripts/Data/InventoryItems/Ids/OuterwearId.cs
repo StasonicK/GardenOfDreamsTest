@@ -1,6 +1,6 @@
 ﻿namespace Data.InventoryItems.Ids
 {
-    public enum BodyArmorId
+    public enum OuterwearId
     {
         Jacket = 0,
         BulletproofVest = 1,

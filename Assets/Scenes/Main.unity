@@ -821,11 +821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _flexibleGridLayoutRect: {fileID: 1767509192}
   _containerTransform: {fileID: 1767509188}
-  _ammoItemViewPrefab: {fileID: 919271262528968214, guid: 1f860527983cade4d98c2325b36182d4, type: 3}
-  _bodyArmorItemViewPrefab: {fileID: 2345271717090420201, guid: fcf538cf3b9dbcb4d9532b85e0dca20d, type: 3}
-  _headArmorItemViewPrefab: {fileID: 6251852939306612779, guid: eb9cf5bf3a146c84ea3d4ef593f3f804, type: 3}
-  _medicineItemViewPrefab: {fileID: 1391256460908679538, guid: bff7fb6316695ca4b98257043abf8fc5, type: 3}
-  _emptyInventoryItemViewPrefab: {fileID: 5043969431302614901, guid: cd4159cf46cd7734bb1f9b19dc1b79fb, type: 3}
+  _inventoryItemCellPrefab: {fileID: 7816808242467103130, guid: 3dad54f40e926af4bb86a4bbfc4a99f8, type: 3}
   _inventoryItemWindow: {fileID: 1439965028}
   _notEmptyCellsCount: 8
   _columnsCount: 6
@@ -993,6 +989,10 @@ PrefabInstance:
     - target: {fileID: 1811307051575457492, guid: 0702d3239cc9eb04d853c18334815937, type: 3}
       propertyPath: m_Name
       value: InventoryItemWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811307051575457492, guid: 0702d3239cc9eb04d853c18334815937, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4309470323071718365, guid: 0702d3239cc9eb04d853c18334815937, type: 3}
       propertyPath: m_Pivot.x

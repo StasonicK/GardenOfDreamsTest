@@ -1,6 +1,6 @@
 ﻿namespace Data.InventoryItems.Ids
 {
-    public enum HeadArmorId
+    public enum HeadgearId
     {
         Cap = 0,
         Helm = 1,
