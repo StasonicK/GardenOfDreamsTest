@@ -13,12 +13,14 @@ namespace UI.Windows
         [SerializeField] private TextMeshProUGUI _weightValueText;
         [SerializeField] private Button _equipButton;
         [SerializeField] private Button _deleteButton;
+        [SerializeField] private Button _closeButton;
 
         private void Awake()
         {
             gameObject.SetActive(false);
             _equipButton.onClick.AddListener(OnEquipButtonClick);
             _deleteButton.onClick.AddListener(OnDeleteButtonClick);
+            _closeButton.onClick.AddListener(OnCloseButtonClick);
         }
 
         private void OnEquipButtonClick()
@@ -28,6 +30,9 @@ namespace UI.Windows
         private void OnDeleteButtonClick()
         {
         }
+
+        private void OnCloseButtonClick() =>
+            gameObject.SetActive(false);
 
         public void Show(string title, Sprite iconSprite, Sprite traitSprite, string traitValue, float weight)
         {

@@ -201,7 +201,7 @@ namespace Data
                         _medicineInventoryItemStaticData = _medicineStaticDatas[_medicineId];
                         _count = 1;
                         _inventoryItemsPerCells.Add(new MedicineInventoryItemData(
-                            _medicineInventoryItemStaticData.MainIcon, _count, 
+                            _medicineInventoryItemStaticData.MainIcon, _count,
                             _medicineInventoryItemStaticData.MaxStackCount,
                             _medicineInventoryItemStaticData.Weight, InventoryItemId.Medicine,
                             _medicineId, _medicineInventoryItemStaticData.HealValue,

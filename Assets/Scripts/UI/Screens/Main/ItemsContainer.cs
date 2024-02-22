@@ -12,10 +12,10 @@ namespace UI.Screens.Main
     {
         [SerializeField] private FlexibleGridLayoutRect _flexibleGridLayoutRect;
         [SerializeField] private Transform _containerTransform;
-        [SerializeField] private AmmoItemView _ammoItemViewPrefab;
-        [SerializeField] private BodyArmorItemView _bodyArmorItemViewPrefab;
-        [SerializeField] private HeadArmorItemView _headArmorItemViewPrefab;
-        [SerializeField] private MedicineItemView _medicineItemViewPrefab;
+        [SerializeField] private AmmoInventoryItemView _ammoInventoryItemViewPrefab;
+        [SerializeField] private BodyArmorInventoryItemView _bodyArmorInventoryItemViewPrefab;
+        [SerializeField] private HeadArmorInventoryItemView _headArmorInventoryItemViewPrefab;
+        [SerializeField] private MedicineInventoryItemView _medicineInventoryItemViewPrefab;
         [SerializeField] private GameObject _emptyInventoryItemViewPrefab;
         [SerializeField] private InventoryItemWindow _inventoryItemWindow;
         [SerializeField] private int _notEmptyCellsCount = 8;
@@ -24,10 +24,10 @@ namespace UI.Screens.Main
 
         private List<InventoryItemView> _inventoryItems;
         private InventoryItemView _inventoryItemView;
-        private AmmoItemView _ammoItemView;
-        private BodyArmorItemView _bodyArmorItemView;
-        private HeadArmorItemView _headArmorItemView;
-        private MedicineItemView _medicineItemView;
+        private AmmoInventoryItemView _ammoInventoryItemView;
+        private BodyArmorInventoryItemView _bodyArmorInventoryItemView;
+        private HeadArmorInventoryItemView _headArmorInventoryItemView;
+        private MedicineInventoryItemView _medicineInventoryItemView;
         private ItemsDataService _itemsDataService;
         private InventoryItemView _itemView;
 
@@ -47,28 +47,31 @@ namespace UI.Screens.Main
                     switch (itemData.InventoryItemId)
                     {
                         case InventoryItemId.Ammo:
-                            _ammoItemView = Instantiate(_ammoItemViewPrefab, _containerTransform);
-                            _ammoItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
+                            _ammoInventoryItemView = Instantiate(_ammoInventoryItemViewPrefab, _containerTransform);
+                            _ammoInventoryItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
                                 itemData.MaxStackCount, itemData.Weight, itemData.InventoryItemId, itemData.TraitIcon,
                                 _inventoryItemWindow);
                             break;
                         case InventoryItemId.BodyArmor:
-                            _bodyArmorItemView = Instantiate(_bodyArmorItemViewPrefab, _containerTransform);
-                            _bodyArmorItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
+                            _bodyArmorInventoryItemView =
+                                Instantiate(_bodyArmorInventoryItemViewPrefab, _containerTransform);
+                            _bodyArmorInventoryItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
                                 itemData.MaxStackCount, itemData.Weight, itemData.InventoryItemId,
                                 ((BodyArmorInventoryItemData)itemData).DefenseValue, itemData.TraitIcon,
                                 _inventoryItemWindow);
                             break;
                         case InventoryItemId.HeadArmor:
-                            _headArmorItemView = Instantiate(_headArmorItemViewPrefab, _containerTransform);
-                            _headArmorItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
+                            _headArmorInventoryItemView =
+                                Instantiate(_headArmorInventoryItemViewPrefab, _containerTransform);
+                            _headArmorInventoryItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
                                 itemData.MaxStackCount, itemData.Weight, itemData.InventoryItemId,
                                 ((HeadArmorInventoryItemData)itemData).DefenseValue, itemData.TraitIcon,
                                 _inventoryItemWindow);
                             break;
                         case InventoryItemId.Medicine:
-                            _medicineItemView = Instantiate(_medicineItemViewPrefab, _containerTransform);
-                            _medicineItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
+                            _medicineInventoryItemView =
+                                Instantiate(_medicineInventoryItemViewPrefab, _containerTransform);
+                            _medicineInventoryItemView.Construct(itemData.Name, itemData.MainIcon, itemData.Count,
                                 itemData.MaxStackCount, itemData.Weight, itemData.InventoryItemId,
                                 ((MedicineInventoryItemData)itemData).HealValue, itemData.TraitIcon,
                                 _inventoryItemWindow);

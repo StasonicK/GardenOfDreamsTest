@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: "\u043F\u0430\u0442\u0440\u043E\u043D\u044B 5.45\u044539 (\u0430\u0432\u0442\u043E\u043C\u0430\u0442\u043D\u044B\u0435) "
-  Icon: {fileID: 21300000, guid: 5a877658f56c51142a44c12d516c8d00, type: 3}
+  MainIcon: {fileID: 21300000, guid: 5a877658f56c51142a44c12d516c8d00, type: 3}
   Weight: 0.03
   Count: 100
   MaxStackCount: 100
+  TraitIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

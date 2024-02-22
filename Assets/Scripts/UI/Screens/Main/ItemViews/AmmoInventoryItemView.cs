@@ -4,16 +4,21 @@ using UnityEngine;
 
 namespace UI.Screens.Main.ItemViews
 {
-    public class AmmoItemView : InventoryItemView
+    public class AmmoInventoryItemView : InventoryItemView
     {
+        private string _countValue;
+
+        public string CountValue => _countValue;
+
         public void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
             InventoryItemId inventoryItemId, Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
         {
             base.Construct(title, mainIcon, count, maxStackCount, weight, inventoryItemId, traitIcon,
                 inventoryItemWindow);
+            _countValue = $"+{count}";
         }
 
         protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, Count.ToString(), Weight);
+            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, CountValue, Weight);
     }
 }

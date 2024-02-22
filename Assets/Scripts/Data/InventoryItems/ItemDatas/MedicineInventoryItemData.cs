@@ -13,7 +13,7 @@ namespace Data.InventoryItems.ItemDatas
 
         public MedicineInventoryItemData([CanBeNull] Sprite mainIcon, int count, int maxStackCount,
             float weight, InventoryItemId inventoryItemId, MedicineId id, float healValue, Sprite traitIcon)
-            : base(count, maxStackCount, weight, inventoryItemId, true, mainIcon,traitIcon)
+            : base(count, maxStackCount, weight, inventoryItemId, true, mainIcon, traitIcon)
         {
             Id = id;
             HealValue = healValue;
