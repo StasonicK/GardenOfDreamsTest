@@ -16,9 +16,10 @@ namespace Data.InventoryItems.ItemDatas
         public InventoryItemId InventoryItemId;
         [CanBeNull] public Sprite TraitIcon;
 
-        public InventoryItemData(int count, int maxStackCount, float weight, InventoryItemId inventoryItemId,
-            [CanBeNull] Sprite mainIcon = null, [CanBeNull] Sprite traitIcon = null)
+        public InventoryItemData(string name, int count, int maxStackCount, float weight,
+            InventoryItemId inventoryItemId, [CanBeNull] Sprite mainIcon = null, [CanBeNull] Sprite traitIcon = null)
         {
+            Name = name;
             MainIcon = mainIcon;
             Count = count;
             MaxStackCount = maxStackCount;

@@ -7,13 +7,14 @@ namespace UI.Windows
     public class InventoryItemWindow : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _titleText;
-        [SerializeField] private Image _iconImage;
-        [SerializeField] private Image _traitImage;
+        [SerializeField] private Image _mainIconImage;
+        [SerializeField] private Image _traitIconImage;
         [SerializeField] private TextMeshProUGUI _traitValueText;
         [SerializeField] private TextMeshProUGUI _weightValueText;
         [SerializeField] private Button _equipButton;
         [SerializeField] private Button _deleteButton;
         [SerializeField] private Button _closeButton;
+        [SerializeField] private TextMeshProUGUI _activateButtonText;
 
         private void Awake()
         {
@@ -34,13 +35,15 @@ namespace UI.Windows
         private void OnCloseButtonClick() =>
             gameObject.SetActive(false);
 
-        public void Show(string title, Sprite iconSprite, Sprite traitSprite, string traitValue, float weight)
+        public void Show(string title, Sprite mainIcon, Sprite traitIcon, string traitValue, float weight,
+            string activateButtonText)
         {
             _titleText.text = title;
-            _iconImage.sprite = iconSprite;
-            _traitImage.sprite = traitSprite;
+            _mainIconImage.sprite = mainIcon;
+            _traitIconImage.sprite = traitIcon;
             _traitValueText.text = traitValue;
             _weightValueText.text = $"{weight} кг";
+            _activateButtonText.text = activateButtonText;
             gameObject.SetActive(true);
         }
     }

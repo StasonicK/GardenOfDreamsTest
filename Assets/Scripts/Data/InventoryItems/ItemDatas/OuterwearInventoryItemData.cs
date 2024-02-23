@@ -11,9 +11,9 @@ namespace Data.InventoryItems.ItemDatas
         public OuterwearId Id;
         public float DefenseValue;
 
-        public OuterwearInventoryItemData([CanBeNull] Sprite mainIcon, int count, int maxStackCount,
+        public OuterwearInventoryItemData(string name, [CanBeNull] Sprite mainIcon, int count, int maxStackCount,
             float weight, InventoryItemId inventoryItemId, OuterwearId id, float defenseValue, Sprite traitIcon)
-            : base(count, maxStackCount, weight, inventoryItemId, mainIcon, traitIcon)
+            : base(name, count, maxStackCount, weight, inventoryItemId, mainIcon, traitIcon)
         {
             Id = id;
             DefenseValue = defenseValue;

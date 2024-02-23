@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 459430923760138402}
   - component: {fileID: 6931244615019004569}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ActivateText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -382,13 +382,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _titleText: {fileID: 3379188323653443453}
-  _iconImage: {fileID: 6541777950349118858}
-  _traitImage: {fileID: 2934309472813586146}
+  _mainIconImage: {fileID: 6541777950349118858}
+  _traitIconImage: {fileID: 2934309472813586146}
   _traitValueText: {fileID: 5432954259342940564}
   _weightValueText: {fileID: 1098042094975177037}
   _equipButton: {fileID: 7370626171722420288}
   _deleteButton: {fileID: 3115620250068044758}
   _closeButton: {fileID: 7439009750240181724}
+  _activateButtonText: {fileID: 6931244615019004569}
 --- !u!1 &2297230041286069879
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +654,7 @@ GameObject:
   - component: {fileID: 8933850112965339785}
   - component: {fileID: 7370626171722420288}
   m_Layer: 5
-  m_Name: EquipButton
+  m_Name: ActivateButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1056,7 +1057,7 @@ GameObject:
   - component: {fileID: 3795153412963273677}
   - component: {fileID: 8928577790875801137}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: DeleteText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1519,7 +1520,7 @@ GameObject:
   - component: {fileID: 2974709071055045328}
   - component: {fileID: 6541777950349118858}
   m_Layer: 5
-  m_Name: IconImage
+  m_Name: MainIconImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ namespace Data.InventoryItems.ItemStaticDatas
         public float Weight;
         public int Count;
         public int MaxStackCount;
-        public float HealValue;
+        public int Heal;
         public Sprite TraitIcon;
     }
 }

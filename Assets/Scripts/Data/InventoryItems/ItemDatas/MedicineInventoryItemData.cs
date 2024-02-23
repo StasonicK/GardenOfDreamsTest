@@ -9,14 +9,14 @@ namespace Data.InventoryItems.ItemDatas
     public class MedicineInventoryItemData : InventoryItemData
     {
         public MedicineId Id;
-        public float HealValue;
+        public int Heal;
 
-        public MedicineInventoryItemData([CanBeNull] Sprite mainIcon, int count, int maxStackCount,
-            float weight, InventoryItemId inventoryItemId, MedicineId id, float healValue, Sprite traitIcon)
-            : base(count, maxStackCount, weight, inventoryItemId, mainIcon, traitIcon)
+        public MedicineInventoryItemData(string name, [CanBeNull] Sprite mainIcon, int count, int maxStackCount,
+            float weight, InventoryItemId inventoryItemId, MedicineId id, int heal, Sprite traitIcon)
+            : base(name, count, maxStackCount, weight, inventoryItemId, mainIcon, traitIcon)
         {
             Id = id;
-            HealValue = healValue;
+            Heal = heal;
         }
     }
 }

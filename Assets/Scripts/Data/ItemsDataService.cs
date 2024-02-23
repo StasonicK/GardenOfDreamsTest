@@ -129,7 +129,7 @@ namespace Data
                 if (_allCellsStatus[i])
                     CreateRandomInventoryItemData();
                 else
-                    _inventoryItemsPerCells.Add(new InventoryItemData(0, 0, 0f, InventoryItemId.Empty));
+                    _inventoryItemsPerCells.Add(new InventoryItemData("", 0, 0, 0f, InventoryItemId.Empty));
             }
         }
 
@@ -148,8 +148,9 @@ namespace Data
                         _ammoId = _ammoIds[_itemIndex];
                         _ammoInventoryItemStaticData = _ammoItemStaticDatas[_ammoId];
                         _count = Random.Range(1, _ammoInventoryItemStaticData.MaxStackCount + 1);
-                        _inventoryItemsPerCells.Add(new AmmoInventoryItemData(_ammoInventoryItemStaticData.MainIcon,
-                            _count, _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
+                        _inventoryItemsPerCells.Add(new AmmoInventoryItemData(_ammoInventoryItemStaticData.Name,
+                            _ammoInventoryItemStaticData.MainIcon, _count,
+                            _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
                             InventoryItemId.Ammo, _ammoId, _ammoInventoryItemStaticData.TraitIcon));
                     }
 
@@ -165,7 +166,7 @@ namespace Data
                         _outerwearInventoryItemStaticData = _outerwearStaticDatas[_outerwearId];
                         _count = Random.Range(1, _outerwearInventoryItemStaticData.MaxStackCount + 1);
                         _inventoryItemsPerCells.Add(new OuterwearInventoryItemData(
-                            _outerwearInventoryItemStaticData.MainIcon, _count,
+                            _outerwearInventoryItemStaticData.Name, _outerwearInventoryItemStaticData.MainIcon, _count,
                             _outerwearInventoryItemStaticData.MaxStackCount, _outerwearInventoryItemStaticData.Weight,
                             InventoryItemId.Outerwear, _outerwearId, _outerwearInventoryItemStaticData.DefenseValue,
                             _outerwearInventoryItemStaticData.TraitIcon));
@@ -182,7 +183,7 @@ namespace Data
                         _headgearId = _headgearIds[_itemIndex];
                         _headgearInventoryItemStaticData = _headgearStaticDatas[_headgearId];
                         _count = Random.Range(1, _headgearInventoryItemStaticData.MaxStackCount + 1);
-                        _inventoryItemsPerCells.Add(new HeadgearInventoryItemData(
+                        _inventoryItemsPerCells.Add(new HeadgearInventoryItemData(_headgearInventoryItemStaticData.Name,
                             _headgearInventoryItemStaticData.MainIcon, _count,
                             _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
                             InventoryItemId.Headgear, _headgearId, _headgearInventoryItemStaticData.DefenseValue,
@@ -201,10 +202,10 @@ namespace Data
                         _medicineInventoryItemStaticData = _medicineStaticDatas[_medicineId];
                         _count = 1;
                         _inventoryItemsPerCells.Add(new MedicineInventoryItemData(
-                            _medicineInventoryItemStaticData.MainIcon, _count,
-                            _medicineInventoryItemStaticData.MaxStackCount,
+                            _medicineInventoryItemStaticData.Name, _medicineInventoryItemStaticData.MainIcon,
+                            _count, _medicineInventoryItemStaticData.MaxStackCount,
                             _medicineInventoryItemStaticData.Weight, InventoryItemId.Medicine,
-                            _medicineId, _medicineInventoryItemStaticData.HealValue,
+                            _medicineId, _medicineInventoryItemStaticData.Heal,
                             _medicineInventoryItemStaticData.TraitIcon));
                     }
 

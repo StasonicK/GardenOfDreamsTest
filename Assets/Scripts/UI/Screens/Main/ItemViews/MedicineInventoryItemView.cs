@@ -1,26 +1,81 @@
-﻿using UI.Windows;
+﻿using Data.InventoryItems.Ids;
+using UI.Screens.Main.DrugAndDrop;
+using UI.Windows;
 using UnityEngine;
 
 namespace UI.Screens.Main.ItemViews
 {
     public class MedicineInventoryItemView : BaseInventoryItemView
     {
-        // private float _healValue;
-        private string _healValue;
+        private const string ACTIVATE_BUTTON_TEXT = "Лечить";
 
-        // public float HealValue => _healValue;
-        public string HealValue => _healValue;
+        public int Heal { private set; get; }
+        public MedicineId Id { private set; get; }
+        public string HealValue { private set; get; }
 
         public void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
-            float healValue,
-            Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
+            int heal, Sprite traitIcon, MedicineId medicineId, InventoryItem inventoryItem,
+            InventoryItemWindow inventoryItemWindow)
         {
-            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItemWindow);
-            // _healValue = healValue;
-            _healValue = $"{healValue} HP";
+            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItem,
+                inventoryItemWindow);
+            Id = medicineId;
+            Heal = heal;
+            HealValue = $"{heal} HP";
         }
 
         protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, _healValue, Weight);
+            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, HealValue, Weight, ACTIVATE_BUTTON_TEXT);
+
+        public override void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem)
+        {
+            switch (thisInventoryItem.InventoryItemId)
+            {
+                case InventoryItemId.Empty:
+                    targetItem.ShowMedicineInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Heal, TraitIcon,
+                        Id, InventoryItemWindow);
+                    thisInventoryItem.ShowEmptyInventoryItem();
+                    break;
+                case InventoryItemId.Medicine:
+                {
+                    if (targetItem.MedicineInventoryItemView.Id == Id)
+                    {
+                        int targetCount = targetItem.MedicineInventoryItemView.Count;
+
+                        if (targetCount == MaxStackCount)
+                        {
+                            thisInventoryItem.Return(true);
+                            return;
+                        }
+
+                        int difference = MaxStackCount - targetCount;
+
+                        if (Count > difference)
+                        {
+                            targetItem.MedicineInventoryItemView.AddCount(difference);
+                            RemoveCount(difference);
+                            thisInventoryItem.Return(true);
+                        }
+                        else
+                        {
+                            targetItem.MedicineInventoryItemView.AddCount(Count);
+                            thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.Return(false);
+                        }
+                    }
+                    else
+                    {
+                        thisInventoryItem.Return(true);
+                    }
+
+                    break;
+                }
+                case InventoryItemId.Ammo:
+                case InventoryItemId.Headgear:
+                case InventoryItemId.Outerwear:
+                    thisInventoryItem.Return(true);
+                    break;
+            }
+        }
     }
 }

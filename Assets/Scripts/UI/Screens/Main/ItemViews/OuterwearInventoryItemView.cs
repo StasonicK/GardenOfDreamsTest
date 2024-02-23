@@ -1,26 +1,81 @@
-﻿using UI.Windows;
+﻿using Data.InventoryItems.Ids;
+using UI.Screens.Main.DrugAndDrop;
+using UI.Windows;
 using UnityEngine;
 
 namespace UI.Screens.Main.ItemViews
 {
     public class OuterwearInventoryItemView : BaseInventoryItemView
     {
-        // private float _defenseValue;
-        private string _defenseValue;
+        private const string ACTIVATE_BUTTON_TEXT = "Экипировать";
 
-        // public float DefenseValue => _defenseValue;
-        public string DefenseValue => _defenseValue;
+        public float Defense { private set; get; }
+        public OuterwearId Id { private set; get; }
+        public string DefenseValue { private set; get; }
 
         public void Construct(string title, Sprite mainIcon, int count, int maxStackCount, float weight,
-            float defenseValue,
-            Sprite traitIcon, InventoryItemWindow inventoryItemWindow)
+            float defense, Sprite traitIcon, OuterwearId outerwearId, InventoryItem inventoryItem,
+            InventoryItemWindow inventoryItemWindow)
         {
-            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItemWindow);
-            // _defenseValue = defenseValue;
-            _defenseValue = $"+{defenseValue}";
+            Defense = defense;
+            Id = outerwearId;
+            DefenseValue = $"+{defense}";
+            base.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, inventoryItem,
+                inventoryItemWindow);
         }
 
         protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, _defenseValue.ToString(), Weight);
+            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, DefenseValue, Weight, ACTIVATE_BUTTON_TEXT);
+
+        public override void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem)
+        {
+            switch (thisInventoryItem.InventoryItemId)
+            {
+                case InventoryItemId.Empty:
+                    targetItem.ShowOuterwearInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Defense,
+                        TraitIcon, Id, InventoryItemWindow);
+                    thisInventoryItem.ShowEmptyInventoryItem();
+                    break;
+                case InventoryItemId.Outerwear:
+                {
+                    if (targetItem.OuterwearInventoryItemView.Id == Id)
+                    {
+                        int targetCount = targetItem.OuterwearInventoryItemView.Count;
+
+                        if (targetCount == MaxStackCount)
+                        {
+                            thisInventoryItem.Return(true);
+                            return;
+                        }
+
+                        int difference = MaxStackCount - targetCount;
+
+                        if (targetCount > difference)
+                        {
+                            targetItem.OuterwearInventoryItemView.AddCount(difference);
+                            RemoveCount(difference);
+                            thisInventoryItem.Return(true);
+                        }
+                        else
+                        {
+                            targetItem.OuterwearInventoryItemView.AddCount(Count);
+                            thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.Return(false);
+                        }
+                    }
+                    else
+                    {
+                        thisInventoryItem.Return(true);
+                    }
+
+                    break;
+                }
+                case InventoryItemId.Ammo:
+                case InventoryItemId.Headgear:
+                case InventoryItemId.Medicine:
+                    thisInventoryItem.Return(true);
+                    break;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Data;
 using Data.InventoryItems.Ids;
 using Data.InventoryItems.ItemDatas;
+using UI.Screens.Main.DrugAndDrop;
 using UI.Screens.Main.ItemViews;
 using UI.Windows;
 using UnityEngine;
@@ -12,14 +13,16 @@ namespace UI.Screens.Main
     {
         [SerializeField] private FlexibleGridLayoutRect _flexibleGridLayoutRect;
         [SerializeField] private Transform _containerTransform;
-        [SerializeField] private InventoryItemCell _inventoryItemCellPrefab;
+        [SerializeField] private InventoryCell _inventoryCellPrefab;
+        [SerializeField] private InventoryItem _inventoryItemPrefab;
         [SerializeField] private InventoryItemWindow _inventoryItemWindow;
         [SerializeField] private int _notEmptyCellsCount = 8;
         [SerializeField] private int _columnsCount = 6;
         [SerializeField] private int _rowsCount = 5;
 
         private List<BaseInventoryItemView> _inventoryItems;
-        private InventoryItemCell _inventoryItemCell;
+        private InventoryCell _inventoryCell;
+        private InventoryItem _inventoryItem;
         private ItemsDataService _itemsDataService;
 
         private void Awake()
@@ -33,32 +36,34 @@ namespace UI.Screens.Main
         {
             foreach (InventoryItemData itemData in _itemsDataService.InventoryItemsPerCells)
             {
-                _inventoryItemCell = Instantiate(_inventoryItemCellPrefab, _containerTransform);
+                _inventoryCell = Instantiate(_inventoryCellPrefab, _containerTransform);
+                _inventoryItem = Instantiate(_inventoryItemPrefab, _inventoryCell.transform);
 
                 switch (itemData.InventoryItemId)
                 {
                     case InventoryItemId.Empty:
-                        _inventoryItemCell.ShowEmptyInventoryItem();
+                        _inventoryItem.ShowEmptyInventoryItem();
                         break;
                     case InventoryItemId.Ammo:
-                        _inventoryItemCell.ShowAmmoInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
-                            itemData.MaxStackCount, itemData.Weight, itemData.TraitIcon, _inventoryItemWindow);
+                        _inventoryItem.ShowAmmoInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
+                            itemData.MaxStackCount, itemData.Weight, itemData.TraitIcon,
+                            ((AmmoInventoryItemData)itemData).Id, _inventoryItemWindow);
                         break;
                     case InventoryItemId.Outerwear:
-                        _inventoryItemCell.ShowOuterwearInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
+                        _inventoryItem.ShowOuterwearInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
                             itemData.MaxStackCount, itemData.Weight,
                             ((OuterwearInventoryItemData)itemData).DefenseValue, itemData.TraitIcon,
-                            _inventoryItemWindow);
+                            ((OuterwearInventoryItemData)itemData).Id, _inventoryItemWindow);
                         break;
                     case InventoryItemId.Headgear:
-                        _inventoryItemCell.ShowHeadgearInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
+                        _inventoryItem.ShowHeadgearInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
                             itemData.MaxStackCount, itemData.Weight, ((HeadgearInventoryItemData)itemData).DefenseValue,
-                            itemData.TraitIcon, _inventoryItemWindow);
+                            itemData.TraitIcon, ((HeadgearInventoryItemData)itemData).Id, _inventoryItemWindow);
                         break;
                     case InventoryItemId.Medicine:
-                        _inventoryItemCell.ShowMedicineInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
-                            itemData.MaxStackCount, itemData.Weight, ((MedicineInventoryItemData)itemData).HealValue,
-                            itemData.TraitIcon, _inventoryItemWindow);
+                        _inventoryItem.ShowMedicineInventoryItem(itemData.Name, itemData.MainIcon, itemData.Count,
+                            itemData.MaxStackCount, itemData.Weight, ((MedicineInventoryItemData)itemData).Heal,
+                            itemData.TraitIcon, ((MedicineInventoryItemData)itemData).Id, _inventoryItemWindow);
                         break;
                 }
             }
