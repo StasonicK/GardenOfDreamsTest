@@ -21,7 +21,8 @@ namespace UI.Screens.Main.ItemViews
         }
 
         protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, $"+{Count}", Weight, ACTIVATE_BUTTON_TEXT);
+            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, $"+{Count}", Weight, ACTIVATE_BUTTON_TEXT,
+                InventoryItem);
 
         public override void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem)
         {

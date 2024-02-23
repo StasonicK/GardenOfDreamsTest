@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using UI.Screens.Main.DrugAndDrop;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ namespace UI.Windows
         [SerializeField] private Button _deleteButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private TextMeshProUGUI _activateButtonText;
+        private InventoryItem _inventoryItem;
 
         private void Awake()
         {
@@ -28,15 +30,14 @@ namespace UI.Windows
         {
         }
 
-        private void OnDeleteButtonClick()
-        {
-        }
+        private void OnDeleteButtonClick() => 
+            _inventoryItem.ShowEmptyInventoryItem();
 
         private void OnCloseButtonClick() =>
             gameObject.SetActive(false);
 
         public void Show(string title, Sprite mainIcon, Sprite traitIcon, string traitValue, float weight,
-            string activateButtonText)
+            string activateButtonText, InventoryItem inventoryItem)
         {
             _titleText.text = title;
             _mainIconImage.sprite = mainIcon;
@@ -44,6 +45,7 @@ namespace UI.Windows
             _traitValueText.text = traitValue;
             _weightValueText.text = $"{weight} кг";
             _activateButtonText.text = activateButtonText;
+            _inventoryItem = inventoryItem;
             gameObject.SetActive(true);
         }
     }
