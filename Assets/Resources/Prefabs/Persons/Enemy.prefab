@@ -8,13 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1371311355323262979, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 448f9b0d22132fd409d5171c90ffede2, type: 3}
     - target: {fileID: 2244688361227032979, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_text
       value: "\u0412\u0440\u0430\u0433"
       objectReference: {fileID: 0}
     - target: {fileID: 2244688361227032979, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_fontSize
-      value: 47.35
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 2244688361227032979, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4489823378307764683, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_fontSize
-      value: 47.35
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4742795239258559848, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_Color.b
@@ -139,6 +143,18 @@ PrefabInstance:
     - target: {fileID: 6514336880192759656, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
       propertyPath: m_Color.r
       value: 0.17254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923642464947625233, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923642464947625233, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923642464947625233, guid: 660be4d0b6363ff478def5648e77b412, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

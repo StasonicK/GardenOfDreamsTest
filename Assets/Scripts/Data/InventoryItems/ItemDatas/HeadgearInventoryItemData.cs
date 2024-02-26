@@ -9,10 +9,10 @@ namespace Data.InventoryItems.ItemDatas
     public class HeadgearInventoryItemData : InventoryItemData
     {
         public HeadgearId Id;
-        public float DefenseValue;
+        public int DefenseValue;
 
         public HeadgearInventoryItemData(string name, [CanBeNull] Sprite mainIcon, int count, int maxStackCount,
-            float weight, InventoryItemId inventoryItemId, HeadgearId id, float defenseValue, Sprite traitIcon)
+            float weight, InventoryItemId inventoryItemId, HeadgearId id, int defenseValue, Sprite traitIcon)
             : base(name, count, maxStackCount, weight, inventoryItemId, mainIcon, traitIcon)
         {
             Id = id;

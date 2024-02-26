@@ -2,7 +2,8 @@
 {
     public enum HeadgearId
     {
-        Cap = 0,
-        Helm = 1,
+        None = 0,
+        Cap = 1,
+        Helm = 2,
     }
 }

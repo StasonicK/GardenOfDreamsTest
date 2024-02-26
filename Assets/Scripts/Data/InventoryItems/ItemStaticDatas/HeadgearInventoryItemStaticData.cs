@@ -12,7 +12,7 @@ namespace Data.InventoryItems.ItemStaticDatas
         public float Weight;
         public int Count;
         public int MaxStackCount;
-        public float DefenseValue;
+        public int DefenseValue;
         public Sprite TraitIcon;
     }
 }

@@ -386,7 +386,7 @@ MonoBehaviour:
   _traitIconImage: {fileID: 2934309472813586146}
   _traitValueText: {fileID: 5432954259342940564}
   _weightValueText: {fileID: 1098042094975177037}
-  _equipButton: {fileID: 7370626171722420288}
+  _activateButton: {fileID: 7370626171722420288}
   _deleteButton: {fileID: 3115620250068044758}
   _closeButton: {fileID: 7439009750240181724}
   _activateButtonText: {fileID: 6931244615019004569}

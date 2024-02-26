@@ -2,7 +2,8 @@
 {
     public enum OuterwearId
     {
-        Jacket = 0,
-        BulletproofVest = 1,
+        None = 0,
+        Jacket = 1,
+        BulletproofVest = 2,
     }
 }
