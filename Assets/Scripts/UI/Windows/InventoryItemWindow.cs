@@ -1,7 +1,7 @@
 ﻿using Data;
-using Data.Hero;
 using Data.InventoryItems.Ids;
-using Data.InventoryItems.ItemStaticDatas;
+using Data.Persons;
+using StaticData.ItemStaticDatas;
 using TMPro;
 using UI.Screens.Main.Inventory;
 using UnityEngine;
@@ -49,10 +49,12 @@ namespace UI.Windows
                     switch (_inventoryItem.AmmoInventoryItemView.Id)
                     {
                         case AmmoId.PistolBullets9x18:
-                            HeroDataManager.Instance.AddPistolAmmo(_inventoryItem.AmmoInventoryItemView.Count);
+                            HeroDataManager.Instance.AddAmmo(WeaponId.Pistol,
+                                _inventoryItem.AmmoInventoryItemView.Count);
                             break;
                         case AmmoId.AssaultRifleBullets545x39:
-                            HeroDataManager.Instance.AddAssaultRifleAmmo(_inventoryItem.AmmoInventoryItemView.Count);
+                            HeroDataManager.Instance.AddAmmo(WeaponId.AssaultRifle,
+                                _inventoryItem.AmmoInventoryItemView.Count);
                             break;
                     }
 

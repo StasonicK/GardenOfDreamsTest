@@ -1,28 +1,23 @@
 ﻿using System;
 using Data.InventoryItems.Ids;
-using UnityEngine;
 
-namespace Data.Hero
+namespace Data.Persons
 {
-    public class HeroDataManager : MonoBehaviour
+    public class HeroDataManager : BaseDataManager
     {
-        private const float INITIAL_HEALTH = 100f;
-
         private static HeroDataManager _instance;
-
-        public float Health { private set; get; }
         public WeaponId WeaponId { private set; get; }
         public HeadgearId HeadgearId { private set; get; }
         public OuterwearId OuterwearId { private set; get; }
         public int AssaultRifleAmmoCount { private set; get; }
         public int PistolAmmoCount { private set; get; }
 
-        public event Action HealthChanged;
         public event Action WeaponChanged;
         public event Action HeadgearChanged;
         public event Action OuterwearChanged;
         public event Action AssaultRifleAmmoChanged;
         public event Action PistolAmmoChanged;
+        public event Action Died;
 
         private void Awake()
         {
@@ -41,32 +36,25 @@ namespace Data.Hero
             }
         }
 
-        private void Initialize()
+        protected override void Initialize()
         {
-            Health = INITIAL_HEALTH;
+            base.Initialize();
             WeaponId = WeaponId.Pistol;
             HeadgearId = HeadgearId.None;
             OuterwearId = OuterwearId.None;
             AssaultRifleAmmoCount = 0;
             PistolAmmoCount = 0;
-            HealthChanged?.Invoke();
+            WeaponChanged?.Invoke();
             HeadgearChanged?.Invoke();
             OuterwearChanged?.Invoke();
             PistolAmmoChanged?.Invoke();
             AssaultRifleAmmoChanged?.Invoke();
         }
 
-        public bool CheckNeedHeal() =>
-            Health < INITIAL_HEALTH;
-
-        public void Heal(int count)
+        public void ChangeWeapon(WeaponId weaponId)
         {
-            Health += count;
-
-            if (Health > INITIAL_HEALTH)
-                Health = INITIAL_HEALTH;
-
-            HealthChanged?.Invoke();
+            WeaponId = weaponId;
+            WeaponChanged?.Invoke();
         }
 
         public bool CanChangeHeadgear(HeadgearId headgearId) =>
@@ -87,16 +75,56 @@ namespace Data.Hero
             OuterwearChanged?.Invoke();
         }
 
-        public void AddPistolAmmo(int count)
+        public bool CheckAmmo(int spendCount)
         {
-            PistolAmmoCount += count;
-            PistolAmmoChanged?.Invoke();
+            switch (WeaponId)
+            {
+                case WeaponId.Pistol:
+                    if (PistolAmmoCount > 0 && PistolAmmoCount >= spendCount)
+                        return true;
+                    break;
+                case WeaponId.AssaultRifle:
+                    if (AssaultRifleAmmoCount > 0 && AssaultRifleAmmoCount >= spendCount)
+                        return true;
+                    break;
+            }
+
+            return false;
         }
 
-        public void AddAssaultRifleAmmo(int count)
+        public void AddAmmo(WeaponId id, int count)
         {
-            AssaultRifleAmmoCount += count;
-            AssaultRifleAmmoChanged?.Invoke();
+            switch (id)
+            {
+                case WeaponId.Pistol:
+                    PistolAmmoCount += count;
+                    PistolAmmoChanged?.Invoke();
+                    break;
+                case WeaponId.AssaultRifle:
+                    AssaultRifleAmmoCount += count;
+                    AssaultRifleAmmoChanged?.Invoke();
+                    break;
+            }
+        }
+
+        public void SpendAmmo(int count)
+        {
+            switch (WeaponId)
+            {
+                case WeaponId.Pistol:
+                    PistolAmmoCount -= count;
+                    PistolAmmoChanged?.Invoke();
+                    break;
+                case WeaponId.AssaultRifle:
+                    AssaultRifleAmmoCount -= count;
+                    AssaultRifleAmmoChanged?.Invoke();
+                    break;
+            }
+        }
+
+        protected override void InvokeDeath()
+        {
+            Died?.Invoke();
         }
     }
 }

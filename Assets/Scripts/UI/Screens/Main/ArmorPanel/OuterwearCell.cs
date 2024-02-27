@@ -1,7 +1,7 @@
 ﻿using Data;
-using Data.Hero;
 using Data.InventoryItems.Ids;
-using Data.InventoryItems.ItemStaticDatas;
+using Data.Persons;
+using StaticData.ItemStaticDatas;
 
 namespace UI.Screens.Main.ArmorPanel
 {

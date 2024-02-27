@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Data.InventoryItems.Ids;
-using Data.InventoryItems.ItemStaticDatas;
+using StaticData.ItemStaticDatas;
+using StaticData.Weapons;
 using UnityEngine;
 
 namespace Data
@@ -12,6 +13,7 @@ namespace Data
         private const string OUTERWEAR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Outerwear";
         private const string HEADGEAR_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Headgear";
         private const string MEDICINE_INVENTORY_ITEMS_PATH = "StaticData/InventoryItems/Medicine";
+        private const string WEAPONS_PATH = "StaticData/Weapons";
 
         private static StaticDataManager _instance;
 
@@ -19,6 +21,7 @@ namespace Data
         private Dictionary<OuterwearId, OuterwearInventoryItemStaticData> _outerwearStaticDatas;
         private Dictionary<HeadgearId, HeadgearInventoryItemStaticData> _headgearStaticDatas;
         private Dictionary<MedicineId, MedicineInventoryItemStaticData> _medicineStaticDatas;
+        private Dictionary<WeaponId, WeaponStaticData> _weaponStaticDatas;
 
         private void Awake() =>
             DontDestroyOnLoad(this);
@@ -39,6 +42,10 @@ namespace Data
 
             _medicineStaticDatas = Resources
                 .LoadAll<MedicineInventoryItemStaticData>(MEDICINE_INVENTORY_ITEMS_PATH)
+                .ToDictionary(x => x.Id, x => x);
+
+            _weaponStaticDatas = Resources
+                .LoadAll<WeaponStaticData>(WEAPONS_PATH)
                 .ToDictionary(x => x.Id, x => x);
         }
 
@@ -73,6 +80,11 @@ namespace Data
 
         public MedicineInventoryItemStaticData ForMedicine(MedicineId medicineId) =>
             _medicineStaticDatas.TryGetValue(medicineId, out MedicineInventoryItemStaticData staticData)
+                ? staticData
+                : null;
+
+        public WeaponStaticData ForWeapon(WeaponId weaponId) =>
+            _weaponStaticDatas.TryGetValue(weaponId, out WeaponStaticData staticData)
                 ? staticData
                 : null;
     }

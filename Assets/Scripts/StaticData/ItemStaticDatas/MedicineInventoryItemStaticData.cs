@@ -1,0 +1,18 @@
+﻿using Data.InventoryItems.Ids;
+using UnityEngine;
+
+namespace StaticData.ItemStaticDatas
+{
+    [CreateAssetMenu(fileName = "Medicine", menuName = "StaticData/InventoryItem/Medicine")]
+    public class MedicineInventoryItemStaticData : ScriptableObject
+    {
+        public MedicineId Id;
+        public string Name;
+        public Sprite MainIcon;
+        public float Weight;
+        public int Count;
+        public int MaxStackCount;
+        public int Heal;
+        public Sprite TraitIcon;
+    }
+}

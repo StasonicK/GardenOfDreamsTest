@@ -1,9 +1,9 @@
 ﻿using Data.InventoryItems.Ids;
 using UnityEngine;
 
-namespace Data.InventoryItems.ItemStaticDatas
+namespace StaticData.ItemStaticDatas
 {
-    [CreateAssetMenu(fileName = "HeadArmor", menuName = "StaticData/HeadArmor")]
+    [CreateAssetMenu(fileName = "HeadArmor", menuName = "StaticData/InventoryItem/HeadArmor")]
     public class HeadgearInventoryItemStaticData : ScriptableObject
     {
         public HeadgearId Id;

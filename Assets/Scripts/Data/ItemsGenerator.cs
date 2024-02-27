@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Data.InventoryItems.Ids;
 using Data.InventoryItems.ItemDatas;
-using Data.InventoryItems.ItemStaticDatas;
+using StaticData.ItemStaticDatas;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
