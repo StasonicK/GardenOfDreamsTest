@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data.InventoryItems.Ids;
-using Data.InventoryItems.ItemDatas;
 using StaticData.ItemStaticDatas;
+using UI.Screens.Main.Inventory;
+using UI.Windows;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,8 +12,16 @@ namespace Data
 {
     public class ItemsGenerator : MonoBehaviour
     {
+        [SerializeField] private Transform _containerTransform;
+        [SerializeField] private InventoryCell _inventoryCellPrefab;
+        [SerializeField] private InventoryItem _inventoryItemPrefab;
+        [SerializeField] private InventoryItemWindow _inventoryItemWindow;
         [SerializeField] private bool _random;
 
+        private List<InventoryCell> _inventoryCells;
+        private InventoryCell _inventoryCell;
+        private InventoryItem _inventoryItem;
+        private int _itemIndex;
         private int _notEmptyCellsCount;
         private int _rows;
         private int _columns;
@@ -20,34 +29,33 @@ namespace Data
         private List<OuterwearId> _outerwearIds = Enum.GetValues(typeof(OuterwearId)).Cast<OuterwearId>().ToList();
         private List<HeadgearId> _headgearIds = Enum.GetValues(typeof(HeadgearId)).Cast<HeadgearId>().ToList();
         private List<MedicineId> _medicineIds = Enum.GetValues(typeof(MedicineId)).Cast<MedicineId>().ToList();
-        private InventoryItemData _inventoryItemData;
         private int _currentAmmoItemsCount = 0;
         private int _currentOuterwearItemsCount = 0;
         private int _currentHeadgearItemsCount = 0;
         private int _currentMedicineItemsCount = 0;
-        private List<InventoryItemData> _inventoryItemsPerCells;
         private Dictionary<int, bool> _allCellsStatus;
         private int _allCellsCount;
-        private int _currentNotEmptyCellsCount = 0;
+        private int _currentNotEmptyCellsCount;
         private AmmoInventoryItemStaticData _ammoInventoryItemStaticData;
         private OuterwearInventoryItemStaticData _outerwearInventoryItemStaticData;
         private HeadgearInventoryItemStaticData _headgearInventoryItemStaticData;
         private MedicineInventoryItemStaticData _medicineInventoryItemStaticData;
-        private int _itemIndex;
         private int _count;
         private AmmoId _ammoId;
         private OuterwearId _outerwearId;
         private HeadgearId _headgearId;
         private MedicineId _medicineId;
 
-        public List<InventoryItemData> InventoryItemsPerCells => _inventoryItemsPerCells;
-
         public void Initialize(int notEmptyCellsCount, int rows, int columns)
         {
             _notEmptyCellsCount = notEmptyCellsCount;
             _rows = rows;
             _columns = columns;
+            Generate();
+        }
 
+        public void Generate()
+        {
             FillAllCells();
             GenerateItems();
         }
@@ -98,18 +106,47 @@ namespace Data
             if (_notEmptyCellsCount > _rows * _columns)
                 return;
 
-            _inventoryItemsPerCells = new List<InventoryItemData>();
+            if (_inventoryCells != null)
+            {
+                if (_inventoryCells.Count > 0)
+                {
+                    foreach (InventoryCell cell in _inventoryCells)
+                    {
+                        _inventoryCells.Remove(cell);
+                        Destroy(cell);
+                    }
+                }
+            }
+            else
+            {
+                _inventoryCells = new List<InventoryCell>(_columns * _rows);
+            }
 
             for (int i = 0; i < _allCellsStatus.Count; i++)
             {
+                _inventoryCell = Instantiate(_inventoryCellPrefab, _containerTransform);
+                _inventoryItem = Instantiate(_inventoryItemPrefab, _inventoryCell.transform);
+
                 if (_allCellsStatus[i])
-                    CreateRandomInventoryItemData();
+                    CreateRandomNonEmptyInventoryItem();
                 else
-                    _inventoryItemsPerCells.Add(new InventoryItemData("", 0, 0, 0f, InventoryItemId.Empty));
+                    _inventoryItem.ShowEmptyInventoryItem();
+
+                _inventoryCell.SetInventoryItem(_inventoryItem);
+                _inventoryCells.Add(_inventoryCell);
             }
         }
 
-        private void CreateRandomInventoryItemData()
+        public void CreateRandomItem()
+        {
+            int index = GetRandomItemIndex();
+            _inventoryCell = _inventoryCells[index];
+            _inventoryItem = _inventoryCell.InventoryItem;
+            CreateRandomNonEmptyInventoryItem();
+            _inventoryCell.SetInventoryItem(_inventoryItem);
+        }
+
+        private void CreateRandomNonEmptyInventoryItem()
         {
             _itemIndex = Random.Range(0, 4);
 
@@ -129,10 +166,11 @@ namespace Data
                         else
                             _count = _ammoInventoryItemStaticData.MaxStackCount;
 
-                        _inventoryItemsPerCells.Add(new AmmoInventoryItemData(_ammoInventoryItemStaticData.Name,
-                            _ammoInventoryItemStaticData.MainIcon, _count,
+                        _inventoryItem.ShowAmmoInventoryItem(_ammoInventoryItemStaticData.Name,
+                            _ammoInventoryItemStaticData.MainIcon, _ammoInventoryItemStaticData.Count,
                             _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
-                            InventoryItemId.Ammo, _ammoId, _ammoInventoryItemStaticData.TraitIcon));
+                            _ammoInventoryItemStaticData.TraitIcon,
+                            _ammoInventoryItemStaticData.Id, _inventoryItemWindow);
                     }
 
                     break;
@@ -144,18 +182,22 @@ namespace Data
                     {
                         _itemIndex = Random.Range(1, _outerwearIds.Count);
                         _outerwearId = _outerwearIds[_itemIndex];
-                        _outerwearInventoryItemStaticData = StaticDataManager.Instance.ForOuterwear(_outerwearId);
+                        _outerwearInventoryItemStaticData =
+                            StaticDataManager.Instance.ForOuterwear(_outerwearId);
 
                         if (_random)
                             _count = Random.Range(1, _outerwearInventoryItemStaticData.MaxStackCount + 1);
                         else
                             _count = _outerwearInventoryItemStaticData.MaxStackCount;
 
-                        _inventoryItemsPerCells.Add(new OuterwearInventoryItemData(
-                            _outerwearInventoryItemStaticData.Name, _outerwearInventoryItemStaticData.MainIcon, _count,
-                            _outerwearInventoryItemStaticData.MaxStackCount, _outerwearInventoryItemStaticData.Weight,
-                            InventoryItemId.Outerwear, _outerwearId, _outerwearInventoryItemStaticData.DefenseValue,
-                            _outerwearInventoryItemStaticData.TraitIcon));
+                        _inventoryItem.ShowOuterwearInventoryItem(_outerwearInventoryItemStaticData.Name,
+                            _outerwearInventoryItemStaticData.MainIcon,
+                            _outerwearInventoryItemStaticData.Count,
+                            _outerwearInventoryItemStaticData.MaxStackCount,
+                            _outerwearInventoryItemStaticData.Weight,
+                            _outerwearInventoryItemStaticData.DefenseValue,
+                            _outerwearInventoryItemStaticData.TraitIcon,
+                            _outerwearInventoryItemStaticData.Id, _inventoryItemWindow);
                     }
 
                     break;
@@ -174,11 +216,14 @@ namespace Data
                         else
                             _count = _headgearInventoryItemStaticData.MaxStackCount;
 
-                        _inventoryItemsPerCells.Add(new HeadgearInventoryItemData(_headgearInventoryItemStaticData.Name,
-                            _headgearInventoryItemStaticData.MainIcon, _count,
-                            _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
-                            InventoryItemId.Headgear, _headgearId, _headgearInventoryItemStaticData.DefenseValue,
-                            _headgearInventoryItemStaticData.TraitIcon));
+                        _inventoryItem.ShowHeadgearInventoryItem(_headgearInventoryItemStaticData.Name,
+                            _headgearInventoryItemStaticData.MainIcon,
+                            _headgearInventoryItemStaticData.Count,
+                            _headgearInventoryItemStaticData.MaxStackCount,
+                            _headgearInventoryItemStaticData.Weight,
+                            _headgearInventoryItemStaticData.DefenseValue,
+                            _headgearInventoryItemStaticData.TraitIcon, _headgearInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
                     }
 
                     break;
@@ -197,108 +242,26 @@ namespace Data
                         else
                             _count = _medicineInventoryItemStaticData.MaxStackCount;
 
-                        _inventoryItemsPerCells.Add(new MedicineInventoryItemData(
-                            _medicineInventoryItemStaticData.Name, _medicineInventoryItemStaticData.MainIcon,
-                            _count, _medicineInventoryItemStaticData.MaxStackCount,
-                            _medicineInventoryItemStaticData.Weight, InventoryItemId.Medicine,
-                            _medicineId, _medicineInventoryItemStaticData.Heal,
-                            _medicineInventoryItemStaticData.TraitIcon));
+                        _inventoryItem.ShowMedicineInventoryItem(_medicineInventoryItemStaticData.Name,
+                            _medicineInventoryItemStaticData.MainIcon,
+                            _medicineInventoryItemStaticData.Count,
+                            _medicineInventoryItemStaticData.MaxStackCount,
+                            _medicineInventoryItemStaticData.Weight,
+                            _medicineInventoryItemStaticData.Heal,
+                            _medicineInventoryItemStaticData.TraitIcon, _medicineInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
                     }
 
                     break;
             }
         }
 
-        public int GetRandomItemIndex()
+        private int GetRandomItemIndex()
         {
-            for (int i = 0; i < _inventoryItemsPerCells.Count; i++)
+            for (int i = 0; i < _inventoryCells.Count; i++)
             {
-                if (_inventoryItemsPerCells[i].InventoryItemId == InventoryItemId.Empty)
+                if (_inventoryCells[i].InventoryItem.InventoryItemId == InventoryItemId.Empty)
                 {
-                    _itemIndex = Random.Range(0, 4);
-
-                    switch (_itemIndex)
-                    {
-                        case 0:
-                            _itemIndex = Random.Range(0, _ammoIds.Count);
-                            _ammoId = _ammoIds[_itemIndex];
-                            _ammoInventoryItemStaticData = StaticDataManager.Instance.ForAmmo(_ammoId);
-
-                            if (_random)
-                                _count = Random.Range(1, _ammoInventoryItemStaticData.MaxStackCount + 1);
-                            else
-                                _count = _ammoInventoryItemStaticData.MaxStackCount;
-
-                            _inventoryItemsPerCells[i] = new AmmoInventoryItemData(_ammoInventoryItemStaticData.Name,
-                                _ammoInventoryItemStaticData.MainIcon, _count,
-                                _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
-                                InventoryItemId.Ammo, _ammoId, _ammoInventoryItemStaticData.TraitIcon);
-
-                            break;
-
-                        case 1:
-                            _itemIndex = Random.Range(1, _outerwearIds.Count);
-                            _outerwearId = _outerwearIds[_itemIndex];
-                            _outerwearInventoryItemStaticData =
-                                StaticDataManager.Instance.ForOuterwear(_outerwearId);
-
-                            if (_random)
-                                _count = Random.Range(1, _outerwearInventoryItemStaticData.MaxStackCount + 1);
-                            else
-                                _count = _outerwearInventoryItemStaticData.MaxStackCount;
-
-                            _inventoryItemsPerCells[i] = new OuterwearInventoryItemData(
-                                _outerwearInventoryItemStaticData.Name, _outerwearInventoryItemStaticData.MainIcon,
-                                _count,
-                                _outerwearInventoryItemStaticData.MaxStackCount,
-                                _outerwearInventoryItemStaticData.Weight,
-                                InventoryItemId.Outerwear, _outerwearId,
-                                _outerwearInventoryItemStaticData.DefenseValue,
-                                _outerwearInventoryItemStaticData.TraitIcon);
-
-                            break;
-
-                        case 2:
-                            _itemIndex = Random.Range(1, _headgearIds.Count);
-                            _headgearId = _headgearIds[_itemIndex];
-                            _headgearInventoryItemStaticData = StaticDataManager.Instance.ForHeadgear(_headgearId);
-
-                            if (_random)
-                                _count = Random.Range(1, _headgearInventoryItemStaticData.MaxStackCount + 1);
-                            else
-                                _count = _headgearInventoryItemStaticData.MaxStackCount;
-
-                            _inventoryItemsPerCells[i] = new HeadgearInventoryItemData(
-                                _headgearInventoryItemStaticData.Name,
-                                _headgearInventoryItemStaticData.MainIcon, _count,
-                                _headgearInventoryItemStaticData.MaxStackCount,
-                                _headgearInventoryItemStaticData.Weight,
-                                InventoryItemId.Headgear, _headgearId,
-                                _headgearInventoryItemStaticData.DefenseValue,
-                                _headgearInventoryItemStaticData.TraitIcon);
-
-                            break;
-
-                        case 3:
-                            _itemIndex = Random.Range(0, _medicineIds.Count);
-                            _medicineId = _medicineIds[_itemIndex];
-                            _medicineInventoryItemStaticData = StaticDataManager.Instance.ForMedicine(_medicineId);
-
-                            if (_random)
-                                _count = 1;
-                            else
-                                _count = _medicineInventoryItemStaticData.MaxStackCount;
-
-                            _inventoryItemsPerCells[i] = new MedicineInventoryItemData(
-                                _medicineInventoryItemStaticData.Name, _medicineInventoryItemStaticData.MainIcon,
-                                _count, _medicineInventoryItemStaticData.MaxStackCount,
-                                _medicineInventoryItemStaticData.Weight, InventoryItemId.Medicine,
-                                _medicineId, _medicineInventoryItemStaticData.Heal,
-                                _medicineInventoryItemStaticData.TraitIcon);
-
-                            break;
-                    }
-
                     _itemIndex = i;
                     break;
                 }

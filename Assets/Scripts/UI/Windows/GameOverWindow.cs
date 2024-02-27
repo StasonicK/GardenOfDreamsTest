@@ -1,5 +1,5 @@
-﻿using Data.Persons;
-using UI.Screens.Main.Inventory;
+﻿using Data;
+using Data.Persons;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +9,7 @@ namespace UI.Windows
     {
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _leaveGameButton;
-        [SerializeField] private ItemsContainer _itemsContainer;
+        [SerializeField] private ItemsGenerator _itemsGenerator;
 
         private void Awake()
         {
@@ -19,7 +19,7 @@ namespace UI.Windows
 
         private void Restart()
         {
-            _itemsContainer.Initialize();
+            _itemsGenerator.Generate();
             HeroDataManager.Instance.Initialize();
             EnemyDataManager.Instance.Initialize();
             gameObject.SetActive(false);

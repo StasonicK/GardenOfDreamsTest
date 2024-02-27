@@ -3,6 +3,7 @@ using Data;
 using Data.InventoryItems.Ids;
 using Data.Persons;
 using StaticData.Weapons;
+using UI.Screens.Main.WeaponsPanel;
 using UnityEngine;
 
 namespace Logic
@@ -10,15 +11,16 @@ namespace Logic
     public class HeroAttack : MonoBehaviour
     {
         [SerializeField] private EnemyAttack _enemyAttack;
+        [SerializeField] private ShootButton _shootButton;
         [SerializeField] private int _pistolShotAmmoCount = 1;
         [SerializeField] private int _assaultRifleShotAmmoCount = 3;
-        [SerializeField] private float _enemyAttackDelay = 1f;
+        [SerializeField] private float _delay = 1f;
 
         private WeaponStaticData _weaponStaticData;
         private WaitForSeconds _waitForSeconds;
 
         private void Awake() =>
-            _waitForSeconds = new WaitForSeconds(_enemyAttackDelay);
+            _waitForSeconds = new WaitForSeconds(_delay);
 
         public bool CanAttack()
         {
@@ -60,12 +62,14 @@ namespace Logic
         {
             yield return _waitForSeconds;
             _enemyAttack.Attack();
+            _shootButton.EnableButton();
         }
 
         private IEnumerator CoroutineEnemyInitialize()
         {
             yield return _waitForSeconds;
             EnemyDataManager.Instance.Initialize();
+            _shootButton.EnableButton();
         }
     }
 }

@@ -73,12 +73,13 @@ namespace UI.Windows
                         }
                         else
                         {
-                            _headgearInventoryItemStaticData = StaticDataManager.Instance.ForHeadgear(_headgearId);
+                            _headgearInventoryItemStaticData =
+                                StaticDataManager.Instance.ForHeadgear(HeroDataManager.Instance.HeadgearId);
                             _inventoryItem.ShowHeadgearInventoryItem(_headgearInventoryItemStaticData.Name,
                                 _headgearInventoryItemStaticData.MainIcon, _headgearInventoryItemStaticData.Count,
                                 _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
                                 _headgearInventoryItemStaticData.DefenseValue,
-                                _headgearInventoryItemStaticData.TraitIcon, _headgearId, this);
+                                _headgearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.HeadgearId, this);
                         }
 
                         _isActivated = true;
@@ -98,13 +99,15 @@ namespace UI.Windows
                         }
                         else
                         {
-                            _outerwearInventoryItemStaticData = StaticDataManager.Instance.ForOuterwear(_outerwearId);
+                            _outerwearInventoryItemStaticData =
+                                StaticDataManager.Instance.ForOuterwear(HeroDataManager.Instance.OuterwearId);
                             _inventoryItem.ShowOuterwearInventoryItem(_outerwearInventoryItemStaticData.Name,
                                 _outerwearInventoryItemStaticData.MainIcon, _outerwearInventoryItemStaticData.Count,
                                 _outerwearInventoryItemStaticData.MaxStackCount,
                                 _outerwearInventoryItemStaticData.Weight,
                                 _outerwearInventoryItemStaticData.DefenseValue,
-                                _outerwearInventoryItemStaticData.TraitIcon, _outerwearId, this);
+                                _outerwearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.OuterwearId,
+                                this);
                         }
 
                         _isActivated = true;

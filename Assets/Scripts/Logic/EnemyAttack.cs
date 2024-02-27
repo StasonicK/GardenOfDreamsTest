@@ -1,7 +1,6 @@
 ﻿using Data;
 using Data.Persons;
 using StaticData.ItemStaticDatas;
-using UI.Screens.Main.WeaponsPanel;
 using UnityEngine;
 
 namespace Logic
@@ -9,7 +8,6 @@ namespace Logic
     public class EnemyAttack : MonoBehaviour
     {
         [SerializeField] private int _damage;
-        [SerializeField] private ShootButton _shootButton;
 
         private bool _isHeadAttack = true;
         private HeadgearInventoryItemStaticData _headgearInventoryItemStaticData;
@@ -34,7 +32,6 @@ namespace Logic
             }
 
             _isHeadAttack = !_isHeadAttack;
-            _shootButton.EnableButton();
         }
     }
 }

@@ -67,8 +67,11 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 _countText.text = $"{Count}";
         }
 
-        public void ReduceCount() =>
+        public void ReduceCount()
+        {
             Count--;
+            ShowCountText();
+        }
 
         public abstract void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem);
     }

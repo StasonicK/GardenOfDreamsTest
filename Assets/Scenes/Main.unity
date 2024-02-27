@@ -1186,6 +1186,10 @@ PrefabInstance:
       propertyPath: _enemyAttack
       value: 
       objectReference: {fileID: 1900888371}
+    - target: {fileID: 1748273452200199577, guid: f35b52098a449de4f9e8fe7bd8249dfa, type: 3}
+      propertyPath: _shootButton
+      value: 
+      objectReference: {fileID: 792500781}
     - target: {fileID: 2858415626745795064, guid: f35b52098a449de4f9e8fe7bd8249dfa, type: 3}
       propertyPath: m_Name
       value: Hero
@@ -1645,11 +1649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemsGenerator: {fileID: 1767509196}
   _flexibleGridLayoutRect: {fileID: 1767509192}
-  _containerTransform: {fileID: 1767509188}
-  _inventoryCellPrefab: {fileID: 8756378230833560609, guid: 3dad54f40e926af4bb86a4bbfc4a99f8, type: 3}
-  _inventoryItemPrefab: {fileID: 7816808242467103130, guid: 8a79c5067f4ac454582773d89a3f988c, type: 3}
-  _inventoryItemWindow: {fileID: 1439965028}
-  _notEmptyCellsCount: 8
+  _notEmptyCellsCount: 12
   _columnsCount: 6
   _rowsCount: 5
 --- !u!114 &1767509194
@@ -1702,6 +1702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2fe470c019d4cefa6a25671d16ba909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _containerTransform: {fileID: 1767509188}
+  _inventoryCellPrefab: {fileID: 8756378230833560609, guid: 3dad54f40e926af4bb86a4bbfc4a99f8, type: 3}
+  _inventoryItemPrefab: {fileID: 7816808242467103130, guid: 8a79c5067f4ac454582773d89a3f988c, type: 3}
+  _inventoryItemWindow: {fileID: 1439965028}
   _random: 0
 --- !u!114 &1767509197
 MonoBehaviour:
@@ -2329,6 +2333,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9147720761526347375, guid: a144833b9d169704bb0c1d2d128d91c7, type: 3}
+      propertyPath: _shootButton
+      value: 
+      objectReference: {fileID: 792500781}
+    - target: {fileID: 9147720761526347375, guid: a144833b9d169704bb0c1d2d128d91c7, type: 3}
       propertyPath: _gameOverWindow
       value: 
       objectReference: {fileID: 5338937889229942280}
@@ -2336,6 +2344,10 @@ PrefabInstance:
       propertyPath: _itemsContainer
       value: 
       objectReference: {fileID: 1767509193}
+    - target: {fileID: 9147720761526347375, guid: a144833b9d169704bb0c1d2d128d91c7, type: 3}
+      propertyPath: _itemsGenerator
+      value: 
+      objectReference: {fileID: 1767509196}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
