@@ -13,7 +13,7 @@ namespace Data.Persons
 
         public event Action HealthChanged;
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             MaxHealth = INITIAL_HEALTH;
             CurrentHealth = INITIAL_HEALTH;

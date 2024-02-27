@@ -5,7 +5,10 @@ namespace UI.Screens.Main.Persons
 {
     public class HealthBar : MonoBehaviour
     {
-        [SerializeField] private Slider _slider;
+        private Slider _slider;
+
+        private void Awake() =>
+            _slider = GetComponent<Slider>();
 
         public void SetValue(float current, float max) =>
             _slider.value = current / max;

@@ -2,7 +2,6 @@
 using Data;
 using Data.InventoryItems.Ids;
 using Data.InventoryItems.ItemDatas;
-using UI.Screens.Main.Inventory.ItemViews;
 using UI.Windows;
 using UnityEngine;
 
@@ -20,23 +19,41 @@ namespace UI.Screens.Main.Inventory
         [SerializeField] private int _columnsCount = 6;
         [SerializeField] private int _rowsCount = 5;
 
-        private List<BaseInventoryItemView> _inventoryItems;
+        private List<InventoryCell> _inventoryCells;
         private InventoryCell _inventoryCell;
         private InventoryItem _inventoryItem;
+        private int _itemIndex;
+        private InventoryItemData _itemData;
 
         private void Awake()
         {
+            _inventoryCells = new List<InventoryCell>(_columnsCount * _rowsCount);
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            if (_inventoryCells.Count > 0)
+            {
+                foreach (InventoryCell cell in _inventoryCells)
+                {
+                    _inventoryCells.Remove(cell);
+                    Destroy(cell);
+                }
+            }
+
             _itemsGenerator.Initialize(_notEmptyCellsCount, _rowsCount, _columnsCount);
-            CreateViews();
+            CreateItems();
             _flexibleGridLayoutRect.FitCells(_columnsCount, _rowsCount);
         }
 
-        private void CreateViews()
+        private void CreateItems()
         {
             foreach (InventoryItemData itemData in _itemsGenerator.InventoryItemsPerCells)
             {
                 _inventoryCell = Instantiate(_inventoryCellPrefab, _containerTransform);
                 _inventoryItem = Instantiate(_inventoryItemPrefab, _inventoryCell.transform);
+                _inventoryCell.SetInventoryItem(_inventoryItem);
 
                 switch (itemData.InventoryItemId)
                 {
@@ -65,6 +82,41 @@ namespace UI.Screens.Main.Inventory
                             itemData.TraitIcon, ((MedicineInventoryItemData)itemData).Id, _inventoryItemWindow);
                         break;
                 }
+
+                _inventoryCells.Add(_inventoryCell);
+            }
+        }
+
+        public void CreateRandomItem()
+        {
+            int index = _itemsGenerator.GetRandomItemIndex();
+            _itemData = _itemsGenerator.InventoryItemsPerCells[_itemIndex];
+            _inventoryItem = _inventoryCells[index].InventoryItem;
+
+            switch (_itemData.InventoryItemId)
+            {
+                case InventoryItemId.Empty:
+                case InventoryItemId.Ammo:
+                    _inventoryItem.ShowAmmoInventoryItem(_itemData.Name, _itemData.MainIcon, _itemData.Count,
+                        _itemData.MaxStackCount, _itemData.Weight, _itemData.TraitIcon,
+                        ((AmmoInventoryItemData)_itemData).Id, _inventoryItemWindow);
+                    break;
+                case InventoryItemId.Outerwear:
+                    _inventoryItem.ShowOuterwearInventoryItem(_itemData.Name, _itemData.MainIcon, _itemData.Count,
+                        _itemData.MaxStackCount, _itemData.Weight,
+                        ((OuterwearInventoryItemData)_itemData).DefenseValue, _itemData.TraitIcon,
+                        ((OuterwearInventoryItemData)_itemData).Id, _inventoryItemWindow);
+                    break;
+                case InventoryItemId.Headgear:
+                    _inventoryItem.ShowHeadgearInventoryItem(_itemData.Name, _itemData.MainIcon, _itemData.Count,
+                        _itemData.MaxStackCount, _itemData.Weight, ((HeadgearInventoryItemData)_itemData).DefenseValue,
+                        _itemData.TraitIcon, ((HeadgearInventoryItemData)_itemData).Id, _inventoryItemWindow);
+                    break;
+                case InventoryItemId.Medicine:
+                    _inventoryItem.ShowMedicineInventoryItem(_itemData.Name, _itemData.MainIcon, _itemData.Count,
+                        _itemData.MaxStackCount, _itemData.Weight, ((MedicineInventoryItemData)_itemData).Heal,
+                        _itemData.TraitIcon, ((MedicineInventoryItemData)_itemData).Id, _inventoryItemWindow);
+                    break;
             }
         }
     }

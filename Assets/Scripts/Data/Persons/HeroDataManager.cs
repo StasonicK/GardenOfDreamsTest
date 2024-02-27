@@ -36,7 +36,7 @@ namespace Data.Persons
             }
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
             WeaponId = WeaponId.Pistol;

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System.Collections;
+using Data;
 using Data.InventoryItems.Ids;
 using Data.Persons;
 using StaticData.Weapons;
@@ -8,10 +9,16 @@ namespace Logic
 {
     public class HeroAttack : MonoBehaviour
     {
+        [SerializeField] private EnemyAttack _enemyAttack;
         [SerializeField] private int _pistolShotAmmoCount = 1;
         [SerializeField] private int _assaultRifleShotAmmoCount = 3;
+        [SerializeField] private float _enemyAttackDelay = 1f;
 
         private WeaponStaticData _weaponStaticData;
+        private WaitForSeconds _waitForSeconds;
+
+        private void Awake() =>
+            _waitForSeconds = new WaitForSeconds(_enemyAttackDelay);
 
         public bool CanAttack()
         {
@@ -42,6 +49,23 @@ namespace Logic
         {
             _weaponStaticData = StaticDataManager.Instance.ForWeapon(HeroDataManager.Instance.WeaponId);
             EnemyDataManager.Instance.GetHit(_weaponStaticData.Damage);
+
+            if (EnemyDataManager.Instance.CurrentHealth > 0)
+                StartCoroutine(CoroutineEnemyAttack());
+            else
+                StartCoroutine(CoroutineEnemyInitialize());
+        }
+
+        private IEnumerator CoroutineEnemyAttack()
+        {
+            yield return _waitForSeconds;
+            _enemyAttack.Attack();
+        }
+
+        private IEnumerator CoroutineEnemyInitialize()
+        {
+            yield return _waitForSeconds;
+            EnemyDataManager.Instance.Initialize();
         }
     }
 }
