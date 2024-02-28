@@ -1,6 +1,6 @@
 ﻿using Data;
 using Data.InventoryItems.Ids;
-using Data.Persons;
+using Logic;
 using StaticData.ItemStaticDatas;
 
 namespace UI.Screens.Main.ArmorPanel

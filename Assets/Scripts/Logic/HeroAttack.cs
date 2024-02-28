@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Data;
 using Data.InventoryItems.Ids;
-using Data.Persons;
 using StaticData.Weapons;
 using UI.Screens.Main.WeaponsPanel;
 using UnityEngine;

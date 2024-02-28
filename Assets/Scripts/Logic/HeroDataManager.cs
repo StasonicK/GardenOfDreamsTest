@@ -1,10 +1,15 @@
 ﻿using System;
+using Data;
 using Data.InventoryItems.Ids;
+using Data.Persons;
+using UnityEngine;
 
-namespace Data.Persons
+namespace Logic
 {
     public class HeroDataManager : BaseDataManager
     {
+        private const string FILE_NAME = "HeroData.dat";
+
         private static HeroDataManager _instance;
         public WeaponId WeaponId { private set; get; }
         public HeadgearId HeadgearId { private set; get; }
@@ -25,6 +30,15 @@ namespace Data.Persons
             Instance.Initialize();
         }
 
+        private void OnDestroy()
+        {
+            Debug.Log("HeroDataManager OnDestroy");
+            SaveLoadManager.SaveJsonData(new HeroData(MaxHealth, CurrentHealth, WeaponId, HeadgearId,
+                OuterwearId,
+                AssaultRifleAmmoCount, PistolAmmoCount), FILE_NAME);
+            Debug.Log("HeroDataManager Saved");
+        }
+
         public static HeroDataManager Instance
         {
             get
@@ -38,12 +52,30 @@ namespace Data.Persons
 
         public override void Initialize()
         {
-            base.Initialize();
-            WeaponId = WeaponId.Pistol;
-            HeadgearId = HeadgearId.None;
-            OuterwearId = OuterwearId.None;
-            AssaultRifleAmmoCount = 0;
-            PistolAmmoCount = 0;
+            var heroData = new HeroData(MaxHealth, CurrentHealth);
+
+            if (SaveLoadManager.LoadJsonData<HeroData>(FILE_NAME, ref heroData))
+            {
+                MaxHealth = heroData.MaxHealth;
+                CurrentHealth = heroData.CurrentHealth;
+                WeaponId = heroData.WeaponId;
+                HeadgearId = heroData.HeadgearId;
+                OuterwearId = heroData.OuterwearId;
+                AssaultRifleAmmoCount = heroData.AssaultRifleAmmoCount;
+                PistolAmmoCount = heroData.PistolAmmoCount;
+                Debug.Log("HeroDataManager Loaded");
+            }
+            else
+            {
+                base.Initialize();
+                WeaponId = WeaponId.Pistol;
+                HeadgearId = HeadgearId.None;
+                OuterwearId = OuterwearId.None;
+                AssaultRifleAmmoCount = 0;
+                PistolAmmoCount = 0;
+            }
+
+            InvokeHealthChanged();
             WeaponChanged?.Invoke();
             HeadgearChanged?.Invoke();
             OuterwearChanged?.Invoke();
@@ -122,9 +154,7 @@ namespace Data.Persons
             }
         }
 
-        protected override void InvokeDeath()
-        {
+        protected override void InvokeDeath() =>
             Died?.Invoke();
-        }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Data.Persons
+namespace Logic
 {
     public abstract class BaseDataManager : MonoBehaviour
     {
         private const float INITIAL_HEALTH = 100f;
         private const float ZERO_HEALTH = 0f;
 
-        public float CurrentHealth { private set; get; }
-        public float MaxHealth { private set; get; }
+        public float CurrentHealth { protected set; get; }
+        public float MaxHealth { protected set; get; }
 
         public event Action HealthChanged;
 
@@ -45,6 +45,9 @@ namespace Data.Persons
 
             HealthChanged?.Invoke();
         }
+
+        protected void InvokeHealthChanged() =>
+            HealthChanged?.Invoke();
 
         protected abstract void InvokeDeath();
     }

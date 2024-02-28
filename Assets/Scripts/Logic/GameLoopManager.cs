@@ -1,5 +1,4 @@
 ﻿using Data;
-using Data.Persons;
 using UI.Screens.Main.WeaponsPanel;
 using UI.Windows;
 using UnityEngine;
@@ -14,6 +13,7 @@ namespace Logic
 
         private void Awake()
         {
+            DontDestroyOnLoad(this);
             HeroDataManager.Instance.Died += ToGameOverWindow;
             EnemyDataManager.Instance.Died += AddNewItem;
         }

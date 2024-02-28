@@ -1,5 +1,4 @@
 ﻿using Data;
-using Data.Persons;
 using StaticData.ItemStaticDatas;
 using UnityEngine;
 

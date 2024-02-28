@@ -1,4 +1,4 @@
-﻿using Data.Persons;
+﻿using Logic;
 
 namespace UI.Screens.Main.Persons
 {

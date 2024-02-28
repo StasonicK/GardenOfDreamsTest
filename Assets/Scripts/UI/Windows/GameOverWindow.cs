@@ -1,5 +1,5 @@
 ﻿using Data;
-using Data.Persons;
+using Logic;
 using UnityEngine;
 using UnityEngine.UI;
 

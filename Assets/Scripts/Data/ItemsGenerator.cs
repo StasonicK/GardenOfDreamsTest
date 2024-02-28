@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data.InventoryItems.Ids;
+using Data.InventoryItems.ItemDatas;
 using StaticData.ItemStaticDatas;
 using UI.Screens.Main.Inventory;
 using UI.Windows;
@@ -12,7 +13,7 @@ namespace Data
 {
     public class ItemsGenerator : MonoBehaviour
     {
-        [SerializeField] private Transform _containerTransform;
+        [SerializeField] private ItemsContainer _container;
         [SerializeField] private InventoryCell _inventoryCellPrefab;
         [SerializeField] private InventoryItem _inventoryItemPrefab;
         [SerializeField] private InventoryItemWindow _inventoryItemWindow;
@@ -46,12 +47,72 @@ namespace Data
         private HeadgearId _headgearId;
         private MedicineId _medicineId;
 
+        public List<InventoryCell> InventoryCells => _inventoryCells;
+
         public void Initialize(int notEmptyCellsCount, int rows, int columns)
         {
             _notEmptyCellsCount = notEmptyCellsCount;
             _rows = rows;
             _columns = columns;
             Generate();
+        }
+
+        public void InitializeSaved(List<InventoryItemData> inventoryItemDatas)
+        {
+            _inventoryCells = new List<InventoryCell>();
+
+            foreach (InventoryItemData itemData in inventoryItemDatas)
+            {
+                _inventoryCell = Instantiate(_inventoryCellPrefab, _container.transform);
+                _inventoryItem = Instantiate(_inventoryItemPrefab, _inventoryCell.transform);
+
+                switch (itemData.InventoryItemId)
+                {
+                    case InventoryItemId.Empty:
+                        _inventoryItem.ShowEmptyInventoryItem();
+                        break;
+                    case InventoryItemId.Ammo:
+                        _ammoInventoryItemStaticData =
+                            StaticDataManager.Instance.ForAmmo(((AmmoInventoryItemData)itemData).Id);
+                        _inventoryItem.ShowAmmoInventoryItem(_ammoInventoryItemStaticData.Name,
+                            _ammoInventoryItemStaticData.MainIcon, ((AmmoInventoryItemData)itemData).Count,
+                            _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
+                            _ammoInventoryItemStaticData.TraitIcon, _ammoInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
+                        break;
+                    case InventoryItemId.Headgear:
+                        _headgearInventoryItemStaticData =
+                            StaticDataManager.Instance.ForHeadgear(((HeadgearInventoryItemData)itemData).Id);
+                        _inventoryItem.ShowHeadgearInventoryItem(_headgearInventoryItemStaticData.Name,
+                            _headgearInventoryItemStaticData.MainIcon, ((HeadgearInventoryItemData)itemData).Count,
+                            _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
+                            _headgearInventoryItemStaticData.DefenseValue, _headgearInventoryItemStaticData.TraitIcon,
+                            _headgearInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
+                        break;
+                    case InventoryItemId.Outerwear:
+                        _outerwearInventoryItemStaticData =
+                            StaticDataManager.Instance.ForOuterwear(((OuterwearInventoryItemData)itemData).Id);
+                        _inventoryItem.ShowOuterwearInventoryItem(_outerwearInventoryItemStaticData.Name,
+                            _outerwearInventoryItemStaticData.MainIcon, ((OuterwearInventoryItemData)itemData).Count,
+                            _outerwearInventoryItemStaticData.MaxStackCount, _outerwearInventoryItemStaticData.Weight,
+                            _outerwearInventoryItemStaticData.DefenseValue, _outerwearInventoryItemStaticData.TraitIcon,
+                            _outerwearInventoryItemStaticData.Id, _inventoryItemWindow);
+                        break;
+                    case InventoryItemId.Medicine:
+                        _medicineInventoryItemStaticData =
+                            StaticDataManager.Instance.ForMedicine(((MedicineInventoryItemData)itemData).Id);
+                        _inventoryItem.ShowMedicineInventoryItem(_medicineInventoryItemStaticData.Name,
+                            _medicineInventoryItemStaticData.MainIcon, ((MedicineInventoryItemData)itemData).Count,
+                            _medicineInventoryItemStaticData.MaxStackCount, _medicineInventoryItemStaticData.Weight,
+                            _medicineInventoryItemStaticData.Heal, _medicineInventoryItemStaticData.TraitIcon,
+                            _medicineInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
+                        break;
+                }
+            }
+
+            _inventoryCells.Add(_inventoryCell);
         }
 
         public void Generate()
@@ -124,7 +185,7 @@ namespace Data
 
             for (int i = 0; i < _allCellsStatus.Count; i++)
             {
-                _inventoryCell = Instantiate(_inventoryCellPrefab, _containerTransform);
+                _inventoryCell = Instantiate(_inventoryCellPrefab, _container.transform);
                 _inventoryItem = Instantiate(_inventoryItemPrefab, _inventoryCell.transform);
 
                 if (_allCellsStatus[i])
@@ -167,10 +228,10 @@ namespace Data
                             _count = _ammoInventoryItemStaticData.MaxStackCount;
 
                         _inventoryItem.ShowAmmoInventoryItem(_ammoInventoryItemStaticData.Name,
-                            _ammoInventoryItemStaticData.MainIcon, _ammoInventoryItemStaticData.Count,
-                            _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
-                            _ammoInventoryItemStaticData.TraitIcon,
-                            _ammoInventoryItemStaticData.Id, _inventoryItemWindow);
+                            _ammoInventoryItemStaticData.MainIcon, _count, _ammoInventoryItemStaticData.MaxStackCount,
+                            _ammoInventoryItemStaticData.Weight,
+                            _ammoInventoryItemStaticData.TraitIcon, _ammoInventoryItemStaticData.Id,
+                            _inventoryItemWindow);
                     }
 
                     break;
@@ -191,8 +252,7 @@ namespace Data
                             _count = _outerwearInventoryItemStaticData.MaxStackCount;
 
                         _inventoryItem.ShowOuterwearInventoryItem(_outerwearInventoryItemStaticData.Name,
-                            _outerwearInventoryItemStaticData.MainIcon,
-                            _outerwearInventoryItemStaticData.Count,
+                            _outerwearInventoryItemStaticData.MainIcon, _count,
                             _outerwearInventoryItemStaticData.MaxStackCount,
                             _outerwearInventoryItemStaticData.Weight,
                             _outerwearInventoryItemStaticData.DefenseValue,
@@ -217,8 +277,7 @@ namespace Data
                             _count = _headgearInventoryItemStaticData.MaxStackCount;
 
                         _inventoryItem.ShowHeadgearInventoryItem(_headgearInventoryItemStaticData.Name,
-                            _headgearInventoryItemStaticData.MainIcon,
-                            _headgearInventoryItemStaticData.Count,
+                            _headgearInventoryItemStaticData.MainIcon, _count,
                             _headgearInventoryItemStaticData.MaxStackCount,
                             _headgearInventoryItemStaticData.Weight,
                             _headgearInventoryItemStaticData.DefenseValue,
@@ -243,8 +302,7 @@ namespace Data
                             _count = _medicineInventoryItemStaticData.MaxStackCount;
 
                         _inventoryItem.ShowMedicineInventoryItem(_medicineInventoryItemStaticData.Name,
-                            _medicineInventoryItemStaticData.MainIcon,
-                            _medicineInventoryItemStaticData.Count,
+                            _medicineInventoryItemStaticData.MainIcon, _count,
                             _medicineInventoryItemStaticData.MaxStackCount,
                             _medicineInventoryItemStaticData.Weight,
                             _medicineInventoryItemStaticData.Heal,
