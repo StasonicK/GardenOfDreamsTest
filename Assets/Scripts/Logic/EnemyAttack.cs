@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Audio;
+using Data;
 using StaticData.ItemStaticDatas;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ namespace Logic
                 HeroDataManager.Instance.GetHit(_resultDamage);
             }
 
+            AudioManager.Instance.PlayAudio(AudioTrack.AssaultRifleShootSoundFx);
             _isHeadAttack = !_isHeadAttack;
         }
     }

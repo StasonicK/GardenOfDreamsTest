@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Audio;
+using Data;
 using Logic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,10 @@ namespace UI.Windows
         private void LeaveGame() =>
             Application.Quit();
 
-        public void Show() =>
+        public void Show()
+        {
+            AudioManager.Instance.PlayAudio(AudioTrack.GameOverSoundFx);
             gameObject.SetActive(true);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Audio;
 using Data;
 using Data.InventoryItems.Ids;
 using StaticData.Weapons;
@@ -50,6 +51,16 @@ namespace Logic
         {
             _weaponStaticData = StaticDataManager.Instance.ForWeapon(HeroDataManager.Instance.WeaponId);
             EnemyDataManager.Instance.GetHit(_weaponStaticData.Damage);
+
+            switch (_weaponStaticData.Id)
+            {
+                case WeaponId.Pistol:
+                    AudioManager.Instance.PlayAudio(AudioTrack.PistolShootSoundFx);
+                    break;
+                case WeaponId.AssaultRifle:
+                    AudioManager.Instance.PlayAudio(AudioTrack.AssaultRifleShootSoundFx);
+                    break;
+            }
 
             if (EnemyDataManager.Instance.CurrentHealth > 0)
                 StartCoroutine(CoroutineEnemyAttack());

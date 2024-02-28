@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Audio;
+using Data;
 using Data.InventoryItems.Ids;
 using Logic;
 using StaticData.ItemStaticDatas;
@@ -51,10 +52,12 @@ namespace UI.Windows
                         case AmmoId.PistolBullets9x18:
                             HeroDataManager.Instance.AddAmmo(WeaponId.Pistol,
                                 _inventoryItem.AmmoInventoryItemView.Count);
+                            AudioManager.Instance.PlayAudio(AudioTrack.GotPistolAmmoSoundFx);
                             break;
                         case AmmoId.AssaultRifleBullets545x39:
                             HeroDataManager.Instance.AddAmmo(WeaponId.AssaultRifle,
                                 _inventoryItem.AmmoInventoryItemView.Count);
+                            AudioManager.Instance.PlayAudio(AudioTrack.GotAssaultRifleAmmoSoundFx);
                             break;
                     }
 
@@ -87,6 +90,7 @@ namespace UI.Windows
                             _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
                         }
 
+                        AudioManager.Instance.PlayAudio(AudioTrack.SuccessSoundFx);
                         _isActivated = true;
                         HeroDataManager.Instance.ChangeHeadgear(_headgearId);
                         _activateButton.enabled = false;
@@ -116,9 +120,10 @@ namespace UI.Windows
                                 _outerwearInventoryItemStaticData.DefenseValue,
                                 _outerwearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.OuterwearId,
                                 this);
-                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                         }
 
+                        AudioManager.Instance.PlayAudio(AudioTrack.SuccessSoundFx);
+                        _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                         _isActivated = true;
                         HeroDataManager.Instance.ChangeOuterwear(_outerwearId);
                         _activateButton.enabled = false;
@@ -142,6 +147,7 @@ namespace UI.Windows
                             _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
 
+                        AudioManager.Instance.PlayAudio(AudioTrack.HealSoundFx);
                         _activateButton.enabled = false;
                         _deleteButton.enabled = false;
                     }
@@ -152,18 +158,23 @@ namespace UI.Windows
 
         private void OnDeleteButtonClick()
         {
+            AudioManager.Instance.PlayAudio(AudioTrack.DeletionSoundFx);
             _inventoryItem.ShowEmptyInventoryItem();
             _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
             _activateButton.enabled = false;
             _deleteButton.enabled = false;
         }
 
-        private void OnCloseButtonClick() =>
+        private void OnCloseButtonClick()
+        {
+            AudioManager.Instance.PlayAudio(AudioTrack.CloseWindowSoundFx);
             gameObject.SetActive(false);
+        }
 
         public void Show(string title, Sprite mainIcon, Sprite traitIcon, string traitValue, float weight,
             string activateButtonText, InventoryItem inventoryItem)
         {
+            AudioManager.Instance.PlayAudio(AudioTrack.OpenWindowSoundFx);
             _titleText.text = title;
             _mainIconImage.sprite = mainIcon;
             _traitIconImage.sprite = traitIcon;
