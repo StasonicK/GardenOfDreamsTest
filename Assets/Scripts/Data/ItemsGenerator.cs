@@ -70,6 +70,7 @@ namespace Data
                 {
                     case InventoryItemId.Empty:
                         _inventoryItem.ShowEmptyInventoryItem();
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Empty);
                         break;
                     case InventoryItemId.Ammo:
                         _ammoInventoryItemStaticData =
@@ -79,6 +80,7 @@ namespace Data
                             _ammoInventoryItemStaticData.MaxStackCount, _ammoInventoryItemStaticData.Weight,
                             _ammoInventoryItemStaticData.TraitIcon, _ammoInventoryItemStaticData.Id,
                             _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Ammo);
                         break;
                     case InventoryItemId.Headgear:
                         _headgearInventoryItemStaticData =
@@ -87,8 +89,8 @@ namespace Data
                             _headgearInventoryItemStaticData.MainIcon, ((HeadgearInventoryItemData)itemData).Count,
                             _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
                             _headgearInventoryItemStaticData.DefenseValue, _headgearInventoryItemStaticData.TraitIcon,
-                            _headgearInventoryItemStaticData.Id,
-                            _inventoryItemWindow);
+                            _headgearInventoryItemStaticData.Id, _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Headgear);
                         break;
                     case InventoryItemId.Outerwear:
                         _outerwearInventoryItemStaticData =
@@ -98,6 +100,7 @@ namespace Data
                             _outerwearInventoryItemStaticData.MaxStackCount, _outerwearInventoryItemStaticData.Weight,
                             _outerwearInventoryItemStaticData.DefenseValue, _outerwearInventoryItemStaticData.TraitIcon,
                             _outerwearInventoryItemStaticData.Id, _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Outerwear);
                         break;
                     case InventoryItemId.Medicine:
                         _medicineInventoryItemStaticData =
@@ -106,13 +109,13 @@ namespace Data
                             _medicineInventoryItemStaticData.MainIcon, ((MedicineInventoryItemData)itemData).Count,
                             _medicineInventoryItemStaticData.MaxStackCount, _medicineInventoryItemStaticData.Weight,
                             _medicineInventoryItemStaticData.Heal, _medicineInventoryItemStaticData.TraitIcon,
-                            _medicineInventoryItemStaticData.Id,
-                            _inventoryItemWindow);
+                            _medicineInventoryItemStaticData.Id, _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Medicine);
                         break;
                 }
-            }
 
-            _inventoryCells.Add(_inventoryCell);
+                _inventoryCells.Add(_inventoryCell);
+            }
         }
 
         public void Generate()
@@ -191,9 +194,11 @@ namespace Data
                 if (_allCellsStatus[i])
                     CreateRandomNonEmptyInventoryItem();
                 else
+                {
                     _inventoryItem.ShowEmptyInventoryItem();
+                    _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Empty);
+                }
 
-                _inventoryCell.SetInventoryItem(_inventoryItem);
                 _inventoryCells.Add(_inventoryCell);
             }
         }
@@ -204,7 +209,6 @@ namespace Data
             _inventoryCell = _inventoryCells[index];
             _inventoryItem = _inventoryCell.InventoryItem;
             CreateRandomNonEmptyInventoryItem();
-            _inventoryCell.SetInventoryItem(_inventoryItem);
         }
 
         private void CreateRandomNonEmptyInventoryItem()
@@ -232,6 +236,7 @@ namespace Data
                             _ammoInventoryItemStaticData.Weight,
                             _ammoInventoryItemStaticData.TraitIcon, _ammoInventoryItemStaticData.Id,
                             _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Ammo);
                     }
 
                     break;
@@ -258,6 +263,7 @@ namespace Data
                             _outerwearInventoryItemStaticData.DefenseValue,
                             _outerwearInventoryItemStaticData.TraitIcon,
                             _outerwearInventoryItemStaticData.Id, _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Outerwear);
                     }
 
                     break;
@@ -283,6 +289,7 @@ namespace Data
                             _headgearInventoryItemStaticData.DefenseValue,
                             _headgearInventoryItemStaticData.TraitIcon, _headgearInventoryItemStaticData.Id,
                             _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Headgear);
                     }
 
                     break;
@@ -308,6 +315,7 @@ namespace Data
                             _medicineInventoryItemStaticData.Heal,
                             _medicineInventoryItemStaticData.TraitIcon, _medicineInventoryItemStaticData.Id,
                             _inventoryItemWindow);
+                        _inventoryCell.SetInventoryItem(_inventoryItem, InventoryItemId.Medicine);
                     }
 
                     break;

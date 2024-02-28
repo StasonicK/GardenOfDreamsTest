@@ -1,7 +1,6 @@
 ﻿using System;
 using Data;
 using Data.Persons;
-using UnityEngine;
 
 namespace Logic
 {
@@ -21,9 +20,7 @@ namespace Logic
 
         private void OnDestroy()
         {
-            Debug.Log("EnemyDataManager OnDestroy");
             SaveLoadManager.SaveJsonData(new EnemyData(MaxHealth, CurrentHealth), FILE_NAME);
-            Debug.Log("EnemyDataManager Saved");
         }
 
         public static EnemyDataManager Instance

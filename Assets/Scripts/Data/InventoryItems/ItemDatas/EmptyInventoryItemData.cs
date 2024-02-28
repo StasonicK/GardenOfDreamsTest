@@ -3,9 +3,7 @@ using Data.InventoryItems.Ids;
 
 namespace Data.InventoryItems.ItemDatas
 {
-    // [DataContract]
     [KnownType(typeof(EmptyInventoryItemData))]
-    // [JsonConverter(typeof(InventoryItemDataConverter))]
     public class EmptyInventoryItemData : InventoryItemData
     {
         public EmptyInventoryItemData()

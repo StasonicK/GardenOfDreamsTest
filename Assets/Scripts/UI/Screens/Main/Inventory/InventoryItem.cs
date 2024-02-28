@@ -18,12 +18,14 @@ namespace UI.Screens.Main.Inventory
         private CanvasGroup _canvasGroup;
         private bool _return;
         private bool _slow;
+        private InventoryCell _inventoryCell;
 
         public EmptyInventoryItemView EmptyInventoryItemView => _emptyInventoryItemView;
         public AmmoInventoryItemView AmmoInventoryItemView => _ammoInventoryItemView;
         public HeadgearInventoryItemView HeadgearInventoryItemView => _headgearInventoryItemView;
         public OuterwearInventoryItemView OuterwearInventoryItemView => _outerwearInventoryItemView;
         public MedicineInventoryItemView MedicineInventoryItemView => _medicineInventoryItemView;
+        public InventoryCell InventoryCell => _inventoryCell;
         public Transform LastParent { private set; get; }
         public InventoryItemId InventoryItemId { private set; get; }
 
@@ -209,5 +211,8 @@ namespace UI.Screens.Main.Inventory
             _return = true;
             _slow = slow;
         }
+
+        public void SetInventoryCell(InventoryCell inventoryCell) =>
+            _inventoryCell = inventoryCell;
     }
 }

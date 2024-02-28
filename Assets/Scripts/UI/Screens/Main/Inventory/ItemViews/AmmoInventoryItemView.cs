@@ -30,7 +30,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowAmmoInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, TraitIcon, Id,
                         InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Ammo);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Ammo:
                 {
@@ -56,6 +58,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.AmmoInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

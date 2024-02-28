@@ -34,7 +34,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowOuterwearInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Defense,
                         TraitIcon, Id, InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Outerwear:
                 {
@@ -60,6 +62,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.OuterwearInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

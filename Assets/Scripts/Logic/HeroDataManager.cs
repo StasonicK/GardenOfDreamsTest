@@ -2,7 +2,6 @@
 using Data;
 using Data.InventoryItems.Ids;
 using Data.Persons;
-using UnityEngine;
 
 namespace Logic
 {
@@ -32,11 +31,9 @@ namespace Logic
 
         private void OnDestroy()
         {
-            Debug.Log("HeroDataManager OnDestroy");
             SaveLoadManager.SaveJsonData(new HeroData(MaxHealth, CurrentHealth, WeaponId, HeadgearId,
                 OuterwearId,
                 AssaultRifleAmmoCount, PistolAmmoCount), FILE_NAME);
-            Debug.Log("HeroDataManager Saved");
         }
 
         public static HeroDataManager Instance
@@ -63,7 +60,6 @@ namespace Logic
                 OuterwearId = heroData.OuterwearId;
                 AssaultRifleAmmoCount = heroData.AssaultRifleAmmoCount;
                 PistolAmmoCount = heroData.PistolAmmoCount;
-                Debug.Log("HeroDataManager Loaded");
             }
             else
             {

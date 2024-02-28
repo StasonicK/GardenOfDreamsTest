@@ -3,12 +3,9 @@ using Data.InventoryItems.Ids;
 
 namespace Data.InventoryItems.ItemDatas
 {
-    // [DataContract]
     [KnownType(typeof(MedicineInventoryItemData))]
-    // [JsonConverter(typeof(InventoryItemDataConverter))]
     public class MedicineInventoryItemData : FilledInventoryItemData
     {
-        // [DataMember] 
         public MedicineId Id;
 
         public MedicineInventoryItemData()

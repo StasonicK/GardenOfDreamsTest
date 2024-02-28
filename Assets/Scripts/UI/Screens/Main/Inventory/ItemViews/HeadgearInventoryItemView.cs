@@ -34,7 +34,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowHeadgearInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Defense,
                         TraitIcon, Id, InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Headgear:
                 {
@@ -60,6 +62,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.HeadgearInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

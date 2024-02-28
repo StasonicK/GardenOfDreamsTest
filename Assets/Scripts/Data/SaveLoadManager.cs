@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using UnityEngine;
 using Object = System.Object;
 
 namespace Data
@@ -19,8 +18,7 @@ namespace Data
             if (json == EMPTY_BODY)
                 return;
 
-            if (_fileManager.WriteToFile(fileName, json))
-                Debug.Log("Save successful");
+            _fileManager.WriteToFile(fileName, json);
         }
 
         public static bool LoadJsonData<T>(string fileName, ref T o)
@@ -34,7 +32,6 @@ namespace Data
                     return false;
 
                 o = JsonConvert.DeserializeObject<T>(json);
-                Debug.Log("Load complete");
                 return true;
             }
 

@@ -34,7 +34,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowMedicineInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Heal, TraitIcon,
                         Id, InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Medicine);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Medicine:
                 {
@@ -60,6 +62,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.MedicineInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
+                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

@@ -35,7 +35,6 @@ namespace UI.Screens.Main.Inventory
                     _itemsGenerator.Initialize(_notEmptyCellsCount, _rowsCount, _columnsCount);
                 else
                     _itemsGenerator.InitializeSaved(inventoryItemDatas);
-                Debug.Log("ItemsData Loaded");
             }
             else
             {
@@ -45,12 +44,11 @@ namespace UI.Screens.Main.Inventory
 
         private void OnDestroy()
         {
-            Debug.Log("ItemsContainer OnDestroy");
             ItemsHolder<InventoryItemData> itemsHolder = new ItemsHolder<InventoryItemData>();
 
             foreach (InventoryCell inventoryCell in _itemsGenerator.InventoryCells)
             {
-                switch (inventoryCell.InventoryItem.InventoryItemId)
+                switch (inventoryCell.InventoryItemId)
                 {
                     case InventoryItemId.Empty:
                         itemsHolder.Add(new EmptyInventoryItemData());
@@ -79,7 +77,6 @@ namespace UI.Screens.Main.Inventory
             }
 
             SaveLoadManager.SaveJsonData(itemsHolder, FILE_NAME);
-            Debug.Log("ItemsData Saved");
         }
     }
 }

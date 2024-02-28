@@ -18,7 +18,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         thisInventoryItem.AmmoInventoryItemView.TraitIcon,
                         thisInventoryItem.AmmoInventoryItemView.Id,
                         thisInventoryItem.AmmoInventoryItemView.InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Ammo);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Headgear:
                     targetItem.ShowHeadgearInventoryItem(
@@ -31,7 +33,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         thisInventoryItem.HeadgearInventoryItemView.TraitIcon,
                         thisInventoryItem.HeadgearInventoryItemView.Id,
                         thisInventoryItem.HeadgearInventoryItemView.InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Outerwear:
                     targetItem.ShowOuterwearInventoryItem(
@@ -44,7 +48,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         thisInventoryItem.OuterwearInventoryItemView.TraitIcon,
                         thisInventoryItem.OuterwearInventoryItemView.Id,
                         thisInventoryItem.OuterwearInventoryItemView.InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Medicine:
                     targetItem.ShowMedicineInventoryItem(
@@ -57,7 +63,9 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         thisInventoryItem.MedicineInventoryItemView.TraitIcon,
                         thisInventoryItem.MedicineInventoryItemView.Id,
                         thisInventoryItem.MedicineInventoryItemView.InventoryItemWindow);
+                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Medicine);
                     thisInventoryItem.ShowEmptyInventoryItem();
+                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
             }
 

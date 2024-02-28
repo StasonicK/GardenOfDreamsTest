@@ -60,6 +60,9 @@ namespace UI.Windows
 
                     _isActivated = true;
                     _inventoryItem.ShowEmptyInventoryItem();
+                    _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
+                    _activateButton.enabled = false;
+                    _deleteButton.enabled = false;
                     break;
 
                 case InventoryItemId.Headgear:
@@ -70,6 +73,7 @@ namespace UI.Windows
                         if (HeroDataManager.Instance.HeadgearId == HeadgearId.None)
                         {
                             _inventoryItem.ShowEmptyInventoryItem();
+                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
                         else
                         {
@@ -80,10 +84,13 @@ namespace UI.Windows
                                 _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
                                 _headgearInventoryItemStaticData.DefenseValue,
                                 _headgearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.HeadgearId, this);
+                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
                         }
 
                         _isActivated = true;
                         HeroDataManager.Instance.ChangeHeadgear(_headgearId);
+                        _activateButton.enabled = false;
+                        _deleteButton.enabled = false;
                     }
 
                     break;
@@ -96,6 +103,7 @@ namespace UI.Windows
                         if (HeroDataManager.Instance.OuterwearId == OuterwearId.None)
                         {
                             _inventoryItem.ShowEmptyInventoryItem();
+                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
                         else
                         {
@@ -108,10 +116,13 @@ namespace UI.Windows
                                 _outerwearInventoryItemStaticData.DefenseValue,
                                 _outerwearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.OuterwearId,
                                 this);
+                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                         }
 
                         _isActivated = true;
                         HeroDataManager.Instance.ChangeOuterwear(_outerwearId);
+                        _activateButton.enabled = false;
+                        _deleteButton.enabled = false;
                     }
 
                     break;
@@ -128,19 +139,21 @@ namespace UI.Windows
                         {
                             _isActivated = true;
                             _inventoryItem.ShowEmptyInventoryItem();
+                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
+
+                        _activateButton.enabled = false;
+                        _deleteButton.enabled = false;
                     }
 
                     break;
             }
-
-            _activateButton.enabled = false;
-            _deleteButton.enabled = false;
         }
 
         private void OnDeleteButtonClick()
         {
             _inventoryItem.ShowEmptyInventoryItem();
+            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
             _activateButton.enabled = false;
             _deleteButton.enabled = false;
         }
