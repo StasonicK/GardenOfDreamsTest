@@ -1706,7 +1706,7 @@ MonoBehaviour:
   _inventoryCellPrefab: {fileID: 8756378230833560609, guid: 3dad54f40e926af4bb86a4bbfc4a99f8, type: 3}
   _inventoryItemPrefab: {fileID: 7816808242467103130, guid: 8a79c5067f4ac454582773d89a3f988c, type: 3}
   _inventoryItemWindow: {fileID: 1439965028}
-  _random: 0
+  _random: 1
 --- !u!114 &1767509197
 MonoBehaviour:
   m_ObjectHideFlags: 0
