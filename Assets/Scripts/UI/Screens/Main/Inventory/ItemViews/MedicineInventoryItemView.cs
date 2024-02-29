@@ -23,9 +23,12 @@ namespace UI.Screens.Main.Inventory.ItemViews
             HealValue = $"{heal} HP";
         }
 
-        protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, HealValue, Weight, ACTIVATE_BUTTON_TEXT,
+        protected override void OnItemButtonClick()
+        {
+            InventoryItemWindow.gameObject.SetActive(true);
+            InventoryItemWindow.SetData(Title, MainIcon, TraitIcon, HealValue, Weight, ACTIVATE_BUTTON_TEXT,
                 InventoryItem);
+        }
 
         public override void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem)
         {
@@ -34,9 +37,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowMedicineInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, Heal, TraitIcon,
                         Id, InventoryItemWindow);
-                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Medicine);
                     thisInventoryItem.ShowEmptyInventoryItem();
-                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Medicine:
                 {
@@ -62,7 +63,6 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.MedicineInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
-                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

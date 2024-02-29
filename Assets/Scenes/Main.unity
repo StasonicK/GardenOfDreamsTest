@@ -1649,7 +1649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemsGenerator: {fileID: 1767509196}
   _flexibleGridLayoutRect: {fileID: 1767509192}
-  _notEmptyCellsCount: 12
+  _notEmptyCellsCount: 22
   _columnsCount: 6
   _rowsCount: 5
 --- !u!114 &1767509194

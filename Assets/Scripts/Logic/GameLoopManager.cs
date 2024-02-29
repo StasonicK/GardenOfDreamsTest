@@ -1,5 +1,4 @@
-﻿using Data;
-using UI.Screens.Main.WeaponsPanel;
+﻿using UI.Screens.Main.WeaponsPanel;
 using UI.Windows;
 using UnityEngine;
 
@@ -11,11 +10,31 @@ namespace Logic
         [SerializeField] private ItemsGenerator _itemsGenerator;
         [SerializeField] private ShootButton _shootButton;
 
+        private static GameLoopManager _instance;
+
+        public static GameLoopManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = FindObjectOfType<GameLoopManager>();
+
+                return _instance;
+            }
+        }
+
         private void Awake()
         {
             DontDestroyOnLoad(this);
             HeroDataManager.Instance.Died += ToGameOverWindow;
             EnemyDataManager.Instance.Died += AddNewItem;
+        }
+
+        public void Restart()
+        {
+            _itemsGenerator.Generate();
+            HeroDataManager.Instance.InitializeRestart();
+            EnemyDataManager.Instance.InitializeRestart();
         }
 
         private void ToGameOverWindow() =>

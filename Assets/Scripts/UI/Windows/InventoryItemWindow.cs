@@ -63,7 +63,6 @@ namespace UI.Windows
 
                     _isActivated = true;
                     _inventoryItem.ShowEmptyInventoryItem();
-                    _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     _activateButton.enabled = false;
                     _deleteButton.enabled = false;
                     break;
@@ -76,7 +75,6 @@ namespace UI.Windows
                         if (HeroDataManager.Instance.HeadgearId == HeadgearId.None)
                         {
                             _inventoryItem.ShowEmptyInventoryItem();
-                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
                         else
                         {
@@ -87,7 +85,6 @@ namespace UI.Windows
                                 _headgearInventoryItemStaticData.MaxStackCount, _headgearInventoryItemStaticData.Weight,
                                 _headgearInventoryItemStaticData.DefenseValue,
                                 _headgearInventoryItemStaticData.TraitIcon, HeroDataManager.Instance.HeadgearId, this);
-                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
                         }
 
                         AudioManager.Instance.PlayAudio(AudioTrack.SuccessSoundFx);
@@ -107,7 +104,6 @@ namespace UI.Windows
                         if (HeroDataManager.Instance.OuterwearId == OuterwearId.None)
                         {
                             _inventoryItem.ShowEmptyInventoryItem();
-                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
                         else
                         {
@@ -123,7 +119,6 @@ namespace UI.Windows
                         }
 
                         AudioManager.Instance.PlayAudio(AudioTrack.SuccessSoundFx);
-                        _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
                         _isActivated = true;
                         HeroDataManager.Instance.ChangeOuterwear(_outerwearId);
                         _activateButton.enabled = false;
@@ -144,7 +139,6 @@ namespace UI.Windows
                         {
                             _isActivated = true;
                             _inventoryItem.ShowEmptyInventoryItem();
-                            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                         }
 
                         AudioManager.Instance.PlayAudio(AudioTrack.HealSoundFx);
@@ -160,7 +154,6 @@ namespace UI.Windows
         {
             AudioManager.Instance.PlayAudio(AudioTrack.DeletionSoundFx);
             _inventoryItem.ShowEmptyInventoryItem();
-            _inventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
             _activateButton.enabled = false;
             _deleteButton.enabled = false;
         }
@@ -171,10 +164,12 @@ namespace UI.Windows
             gameObject.SetActive(false);
         }
 
-        public void Show(string title, Sprite mainIcon, Sprite traitIcon, string traitValue, float weight,
+        public void SetData(string title, Sprite mainIcon, Sprite traitIcon, string traitValue, float weight,
             string activateButtonText, InventoryItem inventoryItem)
         {
-            AudioManager.Instance.PlayAudio(AudioTrack.OpenWindowSoundFx);
+            gameObject.SetActive(true);
+            _activateButton.enabled = true;
+            _deleteButton.enabled = true;
             _titleText.text = title;
             _mainIconImage.sprite = mainIcon;
             _traitIconImage.sprite = traitIcon;
@@ -183,9 +178,11 @@ namespace UI.Windows
             _activateButtonText.text = activateButtonText;
             _inventoryItem = inventoryItem;
             _isActivated = false;
-            _activateButton.enabled = true;
-            _deleteButton.enabled = true;
-            gameObject.SetActive(true);
+            AudioManager.Instance.PlayAudio(AudioTrack.OpenWindowSoundFx);
+        }
+
+        public void Show()
+        {
         }
     }
 }

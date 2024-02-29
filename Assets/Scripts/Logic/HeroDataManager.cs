@@ -8,6 +8,7 @@ namespace Logic
     public class HeroDataManager : BaseDataManager
     {
         private const string FILE_NAME = "HeroData.dat";
+        private const float INITIAL_HEALTH = 100f;
 
         private static HeroDataManager _instance;
         public WeaponId WeaponId { private set; get; }
@@ -22,10 +23,12 @@ namespace Logic
         public event Action AssaultRifleAmmoChanged;
         public event Action PistolAmmoChanged;
         public event Action Died;
+        public event Action HealthChanged;
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
+            base.HealthChanged += () => HealthChanged?.Invoke();
             Instance.Initialize();
         }
 
@@ -47,12 +50,18 @@ namespace Logic
             }
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
             var heroData = new HeroData(MaxHealth, CurrentHealth);
 
             if (SaveLoadManager.LoadJsonData<HeroData>(FILE_NAME, ref heroData))
             {
+                if (heroData.CurrentHealth == 0)
+                {
+                    GameLoopManager.Instance.Restart();
+                    return;
+                }
+
                 MaxHealth = heroData.MaxHealth;
                 CurrentHealth = heroData.CurrentHealth;
                 WeaponId = heroData.WeaponId;
@@ -60,10 +69,11 @@ namespace Logic
                 OuterwearId = heroData.OuterwearId;
                 AssaultRifleAmmoCount = heroData.AssaultRifleAmmoCount;
                 PistolAmmoCount = heroData.PistolAmmoCount;
+                HealthChanged?.Invoke();
             }
             else
             {
-                base.Initialize();
+                base.Initialize(INITIAL_HEALTH);
                 WeaponId = WeaponId.Pistol;
                 HeadgearId = HeadgearId.None;
                 OuterwearId = OuterwearId.None;
@@ -71,7 +81,21 @@ namespace Logic
                 PistolAmmoCount = 0;
             }
 
-            InvokeHealthChanged();
+            WeaponChanged?.Invoke();
+            HeadgearChanged?.Invoke();
+            OuterwearChanged?.Invoke();
+            PistolAmmoChanged?.Invoke();
+            AssaultRifleAmmoChanged?.Invoke();
+        }
+
+        public void InitializeRestart()
+        {
+            base.Initialize(INITIAL_HEALTH);
+            WeaponId = WeaponId.Pistol;
+            HeadgearId = HeadgearId.None;
+            OuterwearId = OuterwearId.None;
+            AssaultRifleAmmoCount = 0;
+            PistolAmmoCount = 0;
             WeaponChanged?.Invoke();
             HeadgearChanged?.Invoke();
             OuterwearChanged?.Invoke();

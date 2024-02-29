@@ -2,6 +2,7 @@
 using Data;
 using Data.InventoryItems.Ids;
 using Data.InventoryItems.ItemDatas;
+using Logic;
 using UnityEngine;
 
 namespace UI.Screens.Main.Inventory
@@ -15,6 +16,10 @@ namespace UI.Screens.Main.Inventory
         [SerializeField] private int _rowsCount = 5;
 
         private const string FILE_NAME = "ItemsData.dat";
+
+        public int NotEmptyCellsCount => _notEmptyCellsCount;
+        public int ColumnsCount => _columnsCount;
+        public int RowsCount => _rowsCount;
 
         private void Awake()
         {
@@ -34,7 +39,7 @@ namespace UI.Screens.Main.Inventory
                 if (inventoryItemDatas.Count == 0)
                     _itemsGenerator.Initialize(_notEmptyCellsCount, _rowsCount, _columnsCount);
                 else
-                    _itemsGenerator.InitializeSaved(inventoryItemDatas);
+                    _itemsGenerator.InitializeSaved(inventoryItemDatas, _notEmptyCellsCount, _rowsCount, _columnsCount);
             }
             else
             {
@@ -78,5 +83,8 @@ namespace UI.Screens.Main.Inventory
 
             SaveLoadManager.SaveJsonData(itemsHolder, FILE_NAME);
         }
+
+        // public void In(){
+        //     _itemsGenerator.InitializeSaved(inventoryItemDatas, _notEmptyCellsCount, _rowsCount, _columnsCount);}
     }
 }

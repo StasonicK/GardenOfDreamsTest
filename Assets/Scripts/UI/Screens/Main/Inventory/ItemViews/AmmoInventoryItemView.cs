@@ -19,9 +19,13 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 inventoryItemWindow);
         }
 
-        protected override void OnItemButtonClick() =>
-            InventoryItemWindow.Show(Title, MainIcon, TraitIcon, $"+{Count}", Weight, ACTIVATE_BUTTON_TEXT,
+        protected override void OnItemButtonClick()
+        {
+            InventoryItemWindow.gameObject.SetActive(true);
+            InventoryItemWindow.SetData(Title, MainIcon, TraitIcon, $"+{Count}", Weight, ACTIVATE_BUTTON_TEXT,
                 InventoryItem);
+            // WindowsManager.Instance.Show(WindowId.InventoryItemWindowId);
+        }
 
         public override void TryStack(InventoryItem thisInventoryItem, InventoryItem targetItem)
         {
@@ -30,9 +34,7 @@ namespace UI.Screens.Main.Inventory.ItemViews
                 case InventoryItemId.Empty:
                     targetItem.ShowAmmoInventoryItem(Title, MainIcon, Count, MaxStackCount, Weight, TraitIcon, Id,
                         InventoryItemWindow);
-                    targetItem.InventoryCell.SetInventoryItemId(InventoryItemId.Ammo);
                     thisInventoryItem.ShowEmptyInventoryItem();
-                    thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                     break;
                 case InventoryItemId.Ammo:
                 {
@@ -58,7 +60,6 @@ namespace UI.Screens.Main.Inventory.ItemViews
                         {
                             targetItem.AmmoInventoryItemView.AddCount(Count);
                             thisInventoryItem.ShowEmptyInventoryItem();
-                            thisInventoryItem.InventoryCell.SetInventoryItemId(InventoryItemId.Empty);
                             thisInventoryItem.Return(false);
                         }
                     }

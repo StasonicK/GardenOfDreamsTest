@@ -5,30 +5,32 @@ namespace Logic
 {
     public abstract class BaseDataManager : MonoBehaviour
     {
-        private const float INITIAL_HEALTH = 100f;
         private const float ZERO_HEALTH = 0f;
+
+        private float _maxHealth;
 
         public float CurrentHealth { protected set; get; }
         public float MaxHealth { protected set; get; }
 
-        public event Action HealthChanged;
+        protected event Action HealthChanged;
 
-        public virtual void Initialize()
+        protected void Initialize(float maxHealth)
         {
-            MaxHealth = INITIAL_HEALTH;
-            CurrentHealth = INITIAL_HEALTH;
+            _maxHealth = maxHealth;
+            MaxHealth = _maxHealth;
+            CurrentHealth = _maxHealth;
             HealthChanged?.Invoke();
         }
 
         public bool CheckNeedHeal() =>
-            CurrentHealth < INITIAL_HEALTH;
+            CurrentHealth < _maxHealth;
 
         public void Heal(int count)
         {
             CurrentHealth += count;
 
-            if (CurrentHealth > INITIAL_HEALTH)
-                CurrentHealth = INITIAL_HEALTH;
+            if (CurrentHealth > _maxHealth)
+                CurrentHealth = _maxHealth;
 
             HealthChanged?.Invoke();
         }
@@ -45,9 +47,6 @@ namespace Logic
 
             HealthChanged?.Invoke();
         }
-
-        protected void InvokeHealthChanged() =>
-            HealthChanged?.Invoke();
 
         protected abstract void InvokeDeath();
     }

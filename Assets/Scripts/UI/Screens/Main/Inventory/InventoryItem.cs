@@ -25,7 +25,6 @@ namespace UI.Screens.Main.Inventory
         public HeadgearInventoryItemView HeadgearInventoryItemView => _headgearInventoryItemView;
         public OuterwearInventoryItemView OuterwearInventoryItemView => _outerwearInventoryItemView;
         public MedicineInventoryItemView MedicineInventoryItemView => _medicineInventoryItemView;
-        public InventoryCell InventoryCell => _inventoryCell;
         public Transform LastParent { private set; get; }
         public InventoryItemId InventoryItemId { private set; get; }
 
@@ -124,6 +123,7 @@ namespace UI.Screens.Main.Inventory
         public void ShowEmptyInventoryItem()
         {
             InventoryItemId = InventoryItemId.Empty;
+            _inventoryCell.SetInventoryItemId(InventoryItemId.Empty);
             Show(InventoryItemId.Empty);
         }
 
@@ -131,6 +131,7 @@ namespace UI.Screens.Main.Inventory
             Sprite traitIcon, AmmoId ammoId, InventoryItemWindow inventoryItemWindow)
         {
             InventoryItemId = InventoryItemId.Ammo;
+            _inventoryCell.SetInventoryItemId(InventoryItemId.Ammo);
             _ammoInventoryItemView.Construct(title, mainIcon, count, maxStackCount, weight, traitIcon, ammoId, this,
                 inventoryItemWindow);
             Show(InventoryItemId.Ammo);
@@ -140,6 +141,7 @@ namespace UI.Screens.Main.Inventory
             int defense, Sprite traitIcon, HeadgearId headgearId, InventoryItemWindow inventoryItemWindow)
         {
             InventoryItemId = InventoryItemId.Headgear;
+            _inventoryCell.SetInventoryItemId(InventoryItemId.Headgear);
             _headgearInventoryItemView.Construct(title, mainIcon, count, maxStackCount, weight, defense, traitIcon,
                 headgearId, this, inventoryItemWindow);
             Show(InventoryItemId.Headgear);
@@ -150,6 +152,7 @@ namespace UI.Screens.Main.Inventory
             InventoryItemWindow inventoryItemWindow)
         {
             InventoryItemId = InventoryItemId.Outerwear;
+            _inventoryCell.SetInventoryItemId(InventoryItemId.Outerwear);
             _outerwearInventoryItemView.Construct(title, mainIcon, count, maxStackCount, weight, defense,
                 traitIcon, outerwearId, this, inventoryItemWindow);
             Show(InventoryItemId.Outerwear);
@@ -159,6 +162,7 @@ namespace UI.Screens.Main.Inventory
             int heal, Sprite traitIcon, MedicineId medicineId, InventoryItemWindow inventoryItemWindow)
         {
             InventoryItemId = InventoryItemId.Medicine;
+            _inventoryCell.SetInventoryItemId(InventoryItemId.Medicine);
             _medicineInventoryItemView.Construct(title, mainIcon, count, maxStackCount, weight, heal, traitIcon,
                 medicineId, this, inventoryItemWindow);
             Show(InventoryItemId.Medicine);

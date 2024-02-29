@@ -1,5 +1,4 @@
 ﻿using Audio;
-using Data;
 using Logic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,9 +19,7 @@ namespace UI.Windows
 
         private void Restart()
         {
-            _itemsGenerator.Generate();
-            HeroDataManager.Instance.Initialize();
-            EnemyDataManager.Instance.Initialize();
+            GameLoopManager.Instance.Restart();
             gameObject.SetActive(false);
         }
 
@@ -31,8 +28,8 @@ namespace UI.Windows
 
         public void Show()
         {
-            AudioManager.Instance.PlayAudio(AudioTrack.GameOverSoundFx);
             gameObject.SetActive(true);
+            AudioManager.Instance.PlayAudio(AudioTrack.GameOverSoundFx);
         }
     }
 }
